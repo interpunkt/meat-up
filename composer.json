@@ -1,0 +1,22 @@
+{
+    "name": "daniellehrner/meat-up",
+    "description": "Code generator for Symfony2",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniel Lehrner",
+            "email": "daniel@lehrner.me"
+        }
+    ],
+    "require": {
+        "symfony/symfony": "^2.8",
+        "doctrine/annotations": "^1.4",
+        "doctrine/orm": "^2.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "DL\\MeatUp\\": ""
+        }
+    }
+}
