@@ -1,0 +1,22 @@
+<?php
+
+namespace {{ namespace }};
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+{% for import in imports %}
+use {{ import }};
+{% endfor %}
+
+class {{ className }} extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+{% for field in fields %}
+{% include 'types/'~field["type"]~'.php.twig' %}
+
+{% endfor %}
+        ;
+    }
+}

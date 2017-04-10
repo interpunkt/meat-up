@@ -1,9 +1,9 @@
 <?php
 
 
-namespace DL\MeatUp\Command;
+namespace DL\MeatUpBundle\Command;
 
-
+use DL\MeatUpBundle\Generator\CrudGeneratorFactory;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,7 +18,7 @@ class MeatUpCommand extends ContainerAwareCommand
             ->setName('dl:meat-up')
 
             // the short description shown while running "php bin/console list"
-            ->setDescription('Creates a FormType, standard Controller and Twig files from an entitiy')
+            ->setDescription('Creates a FormType, Controller and Twig files from your entitiy')
 
             // the full command description shown when running the command with
             // the "--help" option
@@ -30,6 +30,43 @@ class MeatUpCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('Meat up: ' . $input->getArgument('classname'));
+        $className = $input->getArgument('classname');
+        $output->writeln('Meat up: ' . $className);
+
+        $appDir = $this->getContainer()->getParameter('kernel.root_dir');
+        $output->writeln('App dir: ' . $appDir);
+
+        $bundles = $this->getContainer()->get('kernel')->getBundles();
+
+        $meatUpDir =  realpath(dirname(__FILE__, 2));
+
+        $bundleRootDir = null;
+        $bundleNameSpace = null;
+
+        foreach ($bundles as $bundle) {
+            if (strpos($className, $bundle->getNamespace(), 0) === 0) {
+                $bundleNameSpace = $bundle->getNamespace();
+                $bundleRootDir = $bundle->getPath();
+                break;
+            }
+        }
+
+        if (is_null($bundleRootDir) || is_null($bundleNameSpace) ) {
+            $output->writeln('Can\'t find bundle of Entity');
+            return 1;
+        }
+
+        $crudGenerator = CrudGeneratorFactory::create()
+            ->setClassName($className)
+            ->setAppDir($appDir)
+            ->setMeatUpDir($meatUpDir)
+            ->setEntityBundleNameSpace($bundleNameSpace)
+            ->setBundleRootDir($bundleRootDir)
+            ->setOutput($output)
+            ->build();
+
+        $ret = $crudGenerator->generate();
+
+        $output->writeln($ret);
     }
 }
