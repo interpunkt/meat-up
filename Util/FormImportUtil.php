@@ -1,7 +1,7 @@
 <?php
 
 
-namespace DL\MeatUpBundle\Util;
+namespace DL\MeatUp\Util;
 
 
 final class FormImportUtil

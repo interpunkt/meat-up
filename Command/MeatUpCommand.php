@@ -1,9 +1,9 @@
 <?php
 
 
-namespace DL\MeatUpBundle\Command;
+namespace DL\MeatUp\Command;
 
-use DL\MeatUpBundle\Generator\CrudGeneratorFactory;
+use DL\MeatUp\Generator\CrudGeneratorFactory;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

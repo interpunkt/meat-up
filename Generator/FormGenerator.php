@@ -1,9 +1,9 @@
 <?php
 
-namespace DL\MeatUpBundle\Generator;
+namespace DL\MeatUp\Generator;
 
-use DL\MeatUpBundle\Util\FormImportUtil;
-use DL\MeatUpBundle\Util\ReflectionUtil;
+use DL\MeatUp\Util\FormImportUtil;
+use DL\MeatUp\Util\ReflectionUtil;
 
 final class FormGenerator
 {

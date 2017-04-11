@@ -1,6 +1,6 @@
 <?php
 
-namespace DL\MeatUpBundle\Generator;
+namespace DL\MeatUp\Generator;
 
 use DL\MeatUpBundle\Util\ReflectionUtil;
 use Symfony\Component\Console\Output\OutputInterface;

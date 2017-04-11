@@ -1,8 +1,7 @@
 <?php
 
 
-namespace DL\MeatUpBundle\Util;
-
+namespace DL\MeatUp\Util;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use ReflectionClass;
