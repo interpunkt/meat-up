@@ -21,11 +21,5 @@
         "psr-4": {
             "DL\\MeatUp\\": ""
         }
-    },
-    ,
-    "autoload-dev": {
-        "psr-4": {
-            "DL\\TestBundle\\": "Tests/Fixtures/App/src/TestBundle/"
-        }
     }
 }
