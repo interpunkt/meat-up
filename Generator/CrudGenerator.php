@@ -2,7 +2,7 @@
 
 namespace DL\MeatUp\Generator;
 
-use DL\MeatUpBundle\Util\ReflectionUtil;
+use DL\MeatUp\Util\ReflectionUtil;
 use Symfony\Component\Console\Output\OutputInterface;
 
 final class CrudGenerator
