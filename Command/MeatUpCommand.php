@@ -1,9 +1,8 @@
 <?php
 
-
 namespace DL\MeatUp\Command;
 
-use DL\MeatUp\Generator\CrudGeneratorFactory;
+use DL\MeatUp\Generator\CrudGeneratorBuilder;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,35 +32,9 @@ class MeatUpCommand extends ContainerAwareCommand
         $className = $input->getArgument('classname');
         $output->writeln('Meat up: ' . $className);
 
-        $appDir = $this->getContainer()->getParameter('kernel.root_dir');
-        $output->writeln('App dir: ' . $appDir);
-
-        $bundles = $this->getContainer()->get('kernel')->getBundles();
-
-        $meatUpDir =  realpath(dirname(__FILE__, 2));
-
-        $bundleRootDir = null;
-        $bundleNameSpace = null;
-
-        foreach ($bundles as $bundle) {
-            if (strpos($className, $bundle->getNamespace(), 0) === 0) {
-                $bundleNameSpace = $bundle->getNamespace();
-                $bundleRootDir = $bundle->getPath();
-                break;
-            }
-        }
-
-        if (is_null($bundleRootDir) || is_null($bundleNameSpace) ) {
-            $output->writeln('Can\'t find bundle of Entity');
-            return 1;
-        }
-
-        $crudGenerator = CrudGeneratorFactory::create()
+        $crudGenerator = CrudGeneratorBuilder::create()
             ->setClassName($className)
-            ->setAppDir($appDir)
-            ->setMeatUpDir($meatUpDir)
-            ->setEntityBundleNameSpace($bundleNameSpace)
-            ->setBundleRootDir($bundleRootDir)
+            ->setContainer($this->getContainer())
             ->setOutput($output)
             ->build();
 

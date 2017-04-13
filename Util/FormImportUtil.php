@@ -1,8 +1,6 @@
 <?php
 
-
 namespace DL\MeatUp\Util;
-
 
 final class FormImportUtil
 {
@@ -12,6 +10,10 @@ final class FormImportUtil
     );
 
     public static function getImport($type) {
-        return self::$formImportList[$type];
+        if (key_exists($type, self::$formImportList)) {
+            return self::$formImportList[$type];
+        }
+
+        throw new \RuntimeException('FormImportUtil: Unknown type: ' . $type);
     }
 }

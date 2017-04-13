@@ -1,0 +1,141 @@
+<?php
+
+namespace {{ entityBundleNameSpace }}\Controller;
+
+use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
+use {{ entityBundleNameSpace }}\{{ name }};
+use {{ entityBundleNameSpace }}\Form\Type\{{ name }}\Type;
+
+class {{ name }}Controller extends Controller
+{
+    const TITLE = '{{ name | capitalize }}';
+    const TITLE_PLURAL = '{{ plural }}';
+    const PATH_INDEX = 'admin_{{ name }}';
+    const FORM_TYPE = {{ name }}Type::class;
+    const REPOSITORY = '{{ entityBundleName }}:{{ name }}';
+
+    /**
+     * @Route("/admin/{{ name }}", name="admin_{{ name }}")
+     */
+    public function indexAction()
+    {
+        ${{ name | lower }} = $this->getDoctrine()
+            ->getRepository(self::REPOSITORY)
+            ->findAll();
+
+        return $this->render(
+            'admin/{{ name }}/index.html.twig',
+            array(
+                '{{ name | lower }}' => ${{ name | lower }},
+                'title' => self::TITLE,
+                'titlePlural' => self::TITLE_PLURAL,
+                'indexPath' => self::PATH_INDEX,
+            )
+        );
+    }
+
+    /**
+    * @Route("/admin/{{ name }}/insert", name="admin_{{ name }}_insert")
+    * @param Request $request
+    * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+    */
+    public function insertAction(Request $request)
+    {
+        ${{ name }} = new {{ name }}();
+        $form = $this->createForm(self::FORM_TYPE, ${{ name }});
+
+        $result = $this->handleFormUpload($form, $request);
+
+        if($result)
+        {
+            $this->addFlash('success', self::TITLE . ' erfolgreich erstellt!');
+            return $this->redirectToRoute(self::PATH_INDEX);
+        }
+
+        return $this->render(
+            'admin/{{ name }}/insert.html.twig',
+            array(
+                'form' => $form->createView(),
+                'title' => self::TITLE,
+                'titelPlural' => self::TITLE_PLURAL,
+                'indexPath' => self::PATH_INDEX,
+            )
+        );
+    }
+
+    /**
+    * @Route("/admin/{{ name }}/update/{id}", name="admin_{{ name }}_update")
+    * @param Request $request
+    * @param {{ name }} ${{ name }}
+    * @param int $id
+    * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+    */
+    public function updateAction(Request $request, {{ name }} ${{ name }}, $id)
+    {
+        $form = $this->createForm(self::FORM_TYPE, ${{ name }});
+
+        $result = $this->handleFormUpload($form, $request);
+
+        if ($result)
+        {
+            $this->addFlash('success', self::TITLE . ' erfolgreich geändert!');
+            return $this->redirectToRoute(self::PATH_INDEX);
+        }
+
+        return $this->render(
+            'admin/{{ name }}/update.html.twig',
+            array(
+                'form' => $form->createView(),
+                'id' => $id,
+                'title' => self::TITLE,
+                'titlePlural' => self::TITLE_PLURAL,
+                'indexPath' => self::PATH_INDEX,
+                '{{ name }}' => ${{ name }}
+            )
+        );
+    }
+
+    /**
+    * @Route("/admin/{{ name }}/delete/{id}", name="admin_{{ name }}_delete")
+    * @param {{ name }} ${{ name }}
+    * @return \Symfony\Component\HttpFoundation\RedirectResponse
+    */
+    public function deleteAction({{ name }} ${{ name }})
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $em->remove(${{ name }});
+        $em->flush();
+
+        $this->addFlash('success', self::TITLE . ' erfolgreich gelöscht!');
+
+        return $this->redirectToRoute(self::PATH_INDEX);
+    }
+
+    /**
+    * @param Form $form
+    * @param $request
+    * @return bool
+    */
+    public function handleFormUpload($form, $request)
+    {
+        $form->handleRequest($request);
+        if ($form->isValid() && $form->isSubmitted())
+        {
+            ${{ name }} = $form->getData();
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist(${{ name }});
+            $em->flush();
+
+            return true;
+        }
+
+        return false;
+    }
+}

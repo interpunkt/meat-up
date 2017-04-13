@@ -4,19 +4,21 @@ namespace DL\MeatUp\Generator;
 
 use DL\MeatUp\Util\ReflectionUtil;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 final class CrudGenerator
 {
     private $reflection;
     private $appDir;
     private $meatUpDir;
-    private $entityBundleNameSpace;
     private $bundleRootDir;
     private $output;
+    private $entityBundleName;
+    private $entityBundleNameSpace;
     private $entityClassName;
 
     public function __construct($className, $appDir, $meatUpDir, $entityBundleNameSpace, $bundleRootDir,
-                                OutputInterface $output)
+                                $entityBundleName, OutputInterface $output)
     {
         $this->reflection = new ReflectionUtil($className);
         $this->entityClassName = $this->reflection->getClassShortName();
@@ -24,11 +26,13 @@ final class CrudGenerator
         $this->meatUpDir = $meatUpDir;
         $this->entityBundleNameSpace = $entityBundleNameSpace;
         $this->bundleRootDir = $bundleRootDir;
+        $this->entityBundleName = $entityBundleName;
         $this->output = $output;
     }
 
     public function generate()
     {
+        // Generate form type
         $this->output->writeln('Generating FormType');
         $formType = FormGenerator::generate($this->reflection, $this->meatUpDir, $this->entityBundleNameSpace);
 
@@ -39,7 +43,17 @@ final class CrudGenerator
 
         if ($this->writeToFile($formType, $formTypeFile) === false) {
             $this->output->writeln('Can\'t write to file ' . $formTypeFile);
+            return false;
         }
+
+        $this->output->writeln('Created file ' . $formTypeFile);
+
+        // Generate Controller
+        $this->output->writeln('Generating Controller');
+        $controller = ControllerGenerator::generate($this->meatUpDir, $this->entityBundleName,
+            $this->entityClassName, $this->entityBundleNameSpace);
+
+        return $controller;
     }
 
     private function writeToFile($content, $filePath) {
