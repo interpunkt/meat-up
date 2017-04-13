@@ -13,9 +13,10 @@ class ControllerGenerator
 
         $controller = $twig->render('controller.php.twig',
             array(
-                '$entityBundleNameSpace' => $entityBundleNameSpace,
+                'entityBundleNameSpace' => $entityBundleNameSpace,
                 'name' => $entityClassName,
                 // TODO get real plural
+                'plural' => $entityClassName,
                 'entityBundleName' => $entityBundleName,
             )
         );

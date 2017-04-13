@@ -53,7 +53,15 @@ final class CrudGenerator
         $controller = ControllerGenerator::generate($this->meatUpDir, $this->entityBundleName,
             $this->entityClassName, $this->entityBundleNameSpace);
 
-        return $controller;
+        $controllerFile = $this->bundleRootDir . DIRECTORY_SEPARATOR
+            . 'Controller' . DIRECTORY_SEPARATOR . $this->entityClassName . 'Controller.php';
+
+        if ($this->writeToFile($controller, $controllerFile) === false) {
+            $this->output->writeln('Can\'t write to file ' . $formTypeFile);
+            return false;
+        }
+
+        return true;
     }
 
     private function writeToFile($content, $filePath) {
