@@ -93,6 +93,9 @@ final class CrudGenerator
             $this->output->writeln('Can\'t write to file ' . $controllerFile);
             return false;
         }
+
+        $this->output->writeln('Created file ' . $controllerFile);
+        return true;
     }
 
     private function generateViewFiles()
@@ -134,6 +137,9 @@ final class CrudGenerator
             $this->output->writeln('Can\'t write to file ' . $indexViewFile);
             return false;
         }
+
+        $this->output->writeln('Created file ' . $indexViewFile);
+        return true;
     }
 
     private function generateInsertViewFile($viewDir)
@@ -150,6 +156,9 @@ final class CrudGenerator
             $this->output->writeln('Can\'t write to file ' . $insertViewFile);
             return false;
         }
+
+        $this->output->writeln('Created file ' . $insertViewFile);
+        return true;
     }
 
     private function generateUpdateViewFile($viewDir)
@@ -166,5 +175,8 @@ final class CrudGenerator
             $this->output->writeln('Can\'t write to file ' . $updateViewFile);
             return false;
         }
+
+        $this->output->writeln('Created file ' . $updateViewFile);
+        return true;
     }
 }
