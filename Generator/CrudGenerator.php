@@ -2,9 +2,9 @@
 
 namespace DL\MeatUp\Generator;
 
+use DL\MeatUp\Util\FileUtil;
 use DL\MeatUp\Util\ReflectionUtil;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 final class CrudGenerator
 {
@@ -32,45 +32,139 @@ final class CrudGenerator
 
     public function generate()
     {
-        // Generate form type
-        $this->output->writeln('Generating FormType');
-        $formType = FormGenerator::generate($this->reflection, $this->meatUpDir, $this->entityBundleNameSpace);
-
-        $formTypeDir = $this->bundleRootDir . DIRECTORY_SEPARATOR . 'Form' .
-            DIRECTORY_SEPARATOR . 'Type' .DIRECTORY_SEPARATOR;
-
-        $formTypeFile = $formTypeDir . $this->entityClassName . 'Type.php';
-
-        if ($this->writeToFile($formType, $formTypeFile) === false) {
-            $this->output->writeln('Can\'t write to file ' . $formTypeFile);
+        if (!$this->generateFormTypeFile())
+        {
+            $this->output->writeln('Generating FormType file not successful');
             return false;
         }
 
-        $this->output->writeln('Created file ' . $formTypeFile);
+        if (!$this->generateControllerFile())
+        {
+            $this->output->writeln('Generating Controller file not successful');
+            return false;
+        }
 
-        // Generate Controller
-        $this->output->writeln('Generating Controller');
-        $controller = ControllerGenerator::generate($this->meatUpDir, $this->entityBundleName,
-            $this->entityClassName, $this->entityBundleNameSpace);
-
-        $controllerFile = $this->bundleRootDir . DIRECTORY_SEPARATOR
-            . 'Controller' . DIRECTORY_SEPARATOR . $this->entityClassName . 'Controller.php';
-
-        if ($this->writeToFile($controller, $controllerFile) === false) {
-            $this->output->writeln('Can\'t write to file ' . $formTypeFile);
+        if (!$this->generateViewFiles())
+        {
+            $this->output->writeln('Generating view files not successful');
             return false;
         }
 
         return true;
     }
 
-    private function writeToFile($content, $filePath) {
-        $fp = fopen($filePath, 'w');
+    private function generateFormTypeFile()
+    {
+        $this->output->writeln('Generating FormType');
+        $formType = FormGenerator::generate(
+            $this->reflection,
+            $this->meatUpDir,
+            $this->entityBundleNameSpace
+        );
 
-        if ($fp === false) {
+        $formTypeDir = $this->bundleRootDir . DIRECTORY_SEPARATOR . 'Form' .
+            DIRECTORY_SEPARATOR . 'Type' .DIRECTORY_SEPARATOR;
+
+        $formTypeFile = $formTypeDir . $this->entityClassName . 'Type.php';
+
+        if (FileUtil::writeToFile($formType, $formTypeFile) === false) {
+            $this->output->writeln('Can\'t write to file ' . $formTypeFile);
             return false;
         }
 
-        return fwrite($fp, $content) !== false;
+        $this->output->writeln('Created file ' . $formTypeFile);
+        return true;
+    }
+
+    private function generateControllerFile()
+    {
+        $this->output->writeln('Generating Controller');
+        $controller = ControllerGenerator::generate(
+            $this->meatUpDir,
+            $this->entityBundleName,
+            $this->entityClassName,
+            $this->entityBundleNameSpace
+        );
+
+        $controllerFile = $this->bundleRootDir . DIRECTORY_SEPARATOR
+            . 'Controller' . DIRECTORY_SEPARATOR . $this->entityClassName . 'Controller.php';
+
+        if (FileUtil::writeToFile($controller, $controllerFile) === false) {
+            $this->output->writeln('Can\'t write to file ' . $controllerFile);
+            return false;
+        }
+    }
+
+    private function generateViewFiles()
+    {
+        $viewDir = $this->appDir . DIRECTORY_SEPARATOR . 'Resources' . DIRECTORY_SEPARATOR . 'views'
+            . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . $this->entityClassName;
+
+        if (!FileUtil::createDirectory($viewDir)) {
+            $this->output->writeln('Can\'t create directory ' . $viewDir);
+            return false;
+        }
+
+        if (!$this->generateIndexViewFile($viewDir))
+        {
+            $this->output->writeln('Generating index view file not successful');
+            return false;
+        }
+
+        if (!$this->generateInsertViewFile($viewDir))
+        {
+            $this->output->writeln('Generating index view file not successful');
+            return false;
+        }
+
+        return true;
+    }
+
+    private function generateIndexViewFile($viewDir)
+    {
+        $this->output->writeln('Generating index view');
+        $indexView = IndexViewGenerator::generate(
+            $this->meatUpDir,
+            $this->entityClassName
+        );
+
+        $indexViewFile = $viewDir . DIRECTORY_SEPARATOR . 'index.html.twig';
+
+        if (FileUtil::writeToFile($indexView, $indexViewFile) === false) {
+            $this->output->writeln('Can\'t write to file ' . $indexViewFile);
+            return false;
+        }
+    }
+
+    private function generateInsertViewFile($viewDir)
+    {
+        $this->output->writeln('Generating insert view');
+        $indexView = InsertViewGenerator::generate(
+            $this->meatUpDir,
+            $this->entityClassName
+        );
+
+        $insertViewFile = $viewDir . DIRECTORY_SEPARATOR . 'insert.html.twig';
+
+        if (FileUtil::writeToFile($indexView, $insertViewFile) === false) {
+            $this->output->writeln('Can\'t write to file ' . $insertViewFile);
+            return false;
+        }
+    }
+
+    private function generateUpdateViewFile($viewDir)
+    {
+        $this->output->writeln('Generating update view');
+        $updateView = UpdateViewGenerator::generate(
+            $this->meatUpDir,
+            $this->entityClassName
+        );
+
+        $updateViewFile = $viewDir . DIRECTORY_SEPARATOR . 'update.html.twig';
+
+        if (FileUtil::writeToFile($updateView, $updateViewFile) === false) {
+            $this->output->writeln('Can\'t write to file ' . $updateViewFile);
+            return false;
+        }
     }
 }
