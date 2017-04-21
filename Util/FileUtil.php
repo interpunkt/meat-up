@@ -20,12 +20,10 @@ class FileUtil
 
     public static function createDirectory($path)
     {
-        $fs = new Filesystem();
-
-        if (!$fs->exists($path))
+        if (!file_exists($path))
         {
             try {
-                $fs->mkdir($path);
+                mkdir($path, 0777, true);
             }
             catch (IOException $e) {
                 return false;
