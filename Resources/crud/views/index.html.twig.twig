@@ -13,10 +13,10 @@
     {{ '{{ parent() }}' }}
 
     {{ '{# Site title #}' }}
-    {{ '{% block pageHeaderTitel %}{{ titelMehrzahl}}{% endblock %}' }}
+    {{ '{% block pageHeaderTitel %}{{ titelPLural }}{% endblock %}' }}
 
     {{ '{# Desciption next to site title #}' }}
-    {{ '{% block pageHeaderDescription %}Übersicht der {{ titelMehrzahl }}{% endblock %}' }}
+    {{ '{% block pageHeaderDescription %}Übersicht der {{ titelPLural }}{% endblock %}' }}
 
     {{ '{# Breadcrumb: Toplevel #}' }}
     {{ '{% block BreadcrumbMainLevel %}' }}
