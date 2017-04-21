@@ -1,8 +1,6 @@
 <?php
 
-
 namespace DL\MeatUp\Util;
-
 
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;

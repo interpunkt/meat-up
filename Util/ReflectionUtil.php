@@ -1,6 +1,5 @@
 <?php
 
-
 namespace DL\MeatUp\Util;
 
 use Doctrine\Common\Annotations\AnnotationReader;
