@@ -4,6 +4,9 @@
 namespace DL\MeatUp\Util;
 
 
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
+
 class FileUtil
 {
     public static function writeToFile($content, $filePath)
@@ -19,9 +22,18 @@ class FileUtil
 
     public static function createDirectory($path)
     {
-        if (!file_exists($path))
+        $fs = new Filesystem();
+
+        if (!$fs->exists($path))
         {
-            return mkdir($path, 0600, true);
+            try {
+                $fs->mkdir($path);
+            }
+            catch (IOException $e) {
+                return false;
+            }
+
+            return true;
         }
         return true;
     }

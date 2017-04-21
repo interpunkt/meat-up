@@ -120,6 +120,12 @@ final class CrudGenerator
             return false;
         }
 
+        if (!$this->generateUpdateViewFile($viewDir))
+        {
+            $this->output->writeln('Generating index view file not successful');
+            return false;
+        }
+
         return true;
     }
 
