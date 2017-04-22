@@ -2,15 +2,14 @@
 
 namespace DL\MeatUp\Generator;
 
-use DL\MeatUp\Util\ReflectionUtil;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 final class CrudGeneratorBuilder
 {
-    private $className = null;
-    private $container = null;
-    private $output = null;
+    private $className;
+    private $container;
+    private $output;
 
     // forbid use of constructor
     private function __construct() {}
@@ -58,12 +57,10 @@ final class CrudGeneratorBuilder
     public function build() {
         $this->checkProperties();
 
-        $this->reflection = new ReflectionUtil($this->className);
-
         $appDir = $this->container->getParameter('kernel.root_dir');
         $this->output->writeln('App dir: ' . $appDir);
 
-        $meatUpDir = realpath(dirname(__FILE__, 2));
+        $meatUpDir = realpath(dirname(__DIR__));
 
         $bundles = $this->container
             ->get('kernel')
@@ -73,8 +70,10 @@ final class CrudGeneratorBuilder
         $bundleRootDir = null;
         $entityBundleName = null;
 
-        foreach ($bundles as $bundle) {
-            if (strpos($this->className, $bundle->getNamespace(), 0) === 0) {
+        foreach ($bundles as $bundle)
+        {
+            if (strpos($this->className, $bundle->getNamespace(), 0) === 0)
+            {
                 $entityBundleNameSpace = $bundle->getNamespace();
                 $bundleRootDir = $bundle->getPath();
                 $entityBundleName = $bundle->getName();
@@ -82,17 +81,20 @@ final class CrudGeneratorBuilder
             }
         }
 
-        if (is_null($bundleRootDir) || is_null($entityBundleNameSpace) ) {
+        if (is_null($bundleRootDir) || is_null($entityBundleNameSpace) )
+        {
             $this->output->writeln('Can\'t find bundle root dir');
             return false;
         }
 
-        if (is_null($entityBundleNameSpace) ) {
+        if (is_null($entityBundleNameSpace) )
+        {
             $this->output->writeln('Can\'t find namespace of entity');
             return false;
         }
 
-        if (is_null($entityBundleName) ) {
+        if (is_null($entityBundleName) )
+        {
             $this->output->writeln('Can\'t find bundle name of entity');
             return false;
         }
@@ -108,7 +110,8 @@ final class CrudGeneratorBuilder
         );
     }
 
-    private function checkProperties() {
+    private function checkProperties()
+    {
         $this->checkProperty($this->className, 'className');
         $this->checkProperty($this->container, 'container');
         $this->checkProperty($this->output, 'output');
@@ -116,7 +119,8 @@ final class CrudGeneratorBuilder
 
     private function checkProperty($property, $propertyName)
     {
-        if (is_null($property)) {
+        if (is_null($property))
+        {
             throw new \BadMethodCallException('CrudGeneratorBuilder: called build without setting ' . $propertyName);
         }
     }
