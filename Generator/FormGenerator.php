@@ -42,8 +42,6 @@ final class FormGenerator
                     $reflection->getManyToOneTargetEntity($property);
             }
 
-            if ( ! key_exists())
-
             $import = FormImportUtil::getImport($field['type']);
 
             if (!in_array($import, $imports))
