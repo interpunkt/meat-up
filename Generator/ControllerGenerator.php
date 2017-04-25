@@ -7,7 +7,8 @@ use DL\MeatUp\Util\TwigUtil;
 class ControllerGenerator
 {
     public static function generate($meatUpDir, $entityBundleName,
-                                    $entityClassName, $entityBundleNameSpace) {
+                                    $entityClassName, $entityBundleNameSpace)
+    {
 
         $twig = TwigUtil::getTwigEnvironment($meatUpDir);
 

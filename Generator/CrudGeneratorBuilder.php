@@ -14,7 +14,8 @@ final class CrudGeneratorBuilder
     // forbid use of constructor
     private function __construct() {}
 
-    public static function create() {
+    public static function create()
+    {
         return new CrudGeneratorBuilder();
     }
 
@@ -54,7 +55,8 @@ final class CrudGeneratorBuilder
     /**
      * @return CrudGenerator | false
      */
-    public function build() {
+    public function build()
+    {
         $this->checkProperties();
 
         $appDir = $this->container->getParameter('kernel.root_dir');
@@ -81,19 +83,19 @@ final class CrudGeneratorBuilder
             }
         }
 
-        if (is_null($bundleRootDir) || is_null($entityBundleNameSpace) )
+        if (is_null($bundleRootDir) || is_null($entityBundleNameSpace))
         {
             $this->output->writeln('Can\'t find bundle root dir');
             return false;
         }
 
-        if (is_null($entityBundleNameSpace) )
+        if (is_null($entityBundleNameSpace))
         {
             $this->output->writeln('Can\'t find namespace of entity');
             return false;
         }
 
-        if (is_null($entityBundleName) )
+        if (is_null($entityBundleName))
         {
             $this->output->writeln('Can\'t find bundle name of entity');
             return false;

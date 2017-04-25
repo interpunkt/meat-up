@@ -9,6 +9,7 @@ class ReflectionUtil
 {
     const DOCTRINE_ID_ANNOTATION = 'Doctrine\ORM\Mapping\Id';
     const DOCTRINE_COLUMN_ANNOTATION = 'Doctrine\ORM\Mapping\Column';
+    const DOCTRINE_MANY_TO_ONE_ANNOTATION = 'Doctrine\ORM\Mapping\ManyToOne';
 
     private $annotationReader;
     private $reflectedClass;
@@ -37,41 +38,67 @@ class ReflectionUtil
 
     public function isId($property)
     {
-
-        $annotation = $this->annotationReader
-            ->getPropertyAnnotation($property, self::DOCTRINE_ID_ANNOTATION);
-
-        return !empty($annotation);
+        return $this->hasAnnotation($property, self::DOCTRINE_ID_ANNOTATION);
     }
 
-    public function getTyp($property)
+    public function getType($property)
     {
-        return $this->getColumnField($property, 'type');
+        if ($this->hasAnnotation($property, self::DOCTRINE_COLUMN_ANNOTATION))
+        {
+            return $this->getAnnotationAttribute(
+                $property,
+                self::DOCTRINE_COLUMN_ANNOTATION,
+                'type'
+            );
+        }
+        elseif ($this->hasAnnotation($property, self::DOCTRINE_MANY_TO_ONE_ANNOTATION))
+        {
+            return 'manyToOne';
+        }
+
+        return false;
     }
 
     public function getName($property)
     {
-
         return $property->getName();
     }
 
     public function getRequired($property)
     {
-        $nullable = $this->getColumnField($property, 'nullable');
+        $nullable = $this->getAnnotationAttribute(
+            $property,
+            self::DOCTRINE_COLUMN_ANNOTATION,
+            'nullable'
+        );
 
         return $nullable !== false ? 'false' : 'true';
     }
 
-    private function getColumnField($property, $fieldName)
+    private function getAnnotationAttribute($property, $annotationName, $attributeName)
     {
         $annotation = $this->annotationReader
-            ->getPropertyAnnotation($property, self::DOCTRINE_COLUMN_ANNOTATION);
+            ->getPropertyAnnotation($property, $annotationName);
 
-        if (is_null($annotation) || !array_key_exists($fieldName, $annotation))
+        if (is_null($annotation) || !array_key_exists($attributeName, $annotation))
         {
             return false;
         }
 
-        return $annotation->$fieldName;
+        return $annotation->$attributeName;
+    }
+
+    public function hasAnnotation($property, $annotationName)
+    {
+        $annotation = $this->annotationReader
+            ->getPropertyAnnotation($property, $annotationName);
+
+        return !empty($annotation);
+    }
+
+    public function getManyToOneTargetEntity($property)
+    {
+        return $this->getAnnotationAttribute($property,
+            self::DOCTRINE_MANY_TO_ONE_ANNOTATION, 'targetEntity');
     }
 }

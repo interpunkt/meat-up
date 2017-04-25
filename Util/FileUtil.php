@@ -8,7 +8,8 @@ class FileUtil
     {
         $fp = fopen($filePath, 'w');
 
-        if ($fp === false) {
+        if ($fp === false)
+        {
             return false;
         }
 

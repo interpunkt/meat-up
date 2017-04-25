@@ -8,14 +8,24 @@ use DL\MeatUp\Util\TwigUtil;
 
 final class FormGenerator
 {
-    public static function generate(ReflectionUtil $reflection, $meatUpDir, $entityBundleNameSpace) {
+    public static function generate(ReflectionUtil $reflection, $meatUpDir, $entityBundleNameSpace)
+    {
         $entityClassName = $reflection->getClassShortName();
 
         $fields = array();
         $imports = array();
 
-        foreach ($reflection->getProperties() as $property) {
-            if ($reflection->isId($property)) {
+        foreach ($reflection->getProperties() as $property)
+        {
+            if ($reflection->isId($property))
+            {
+                continue;
+            }
+
+            $type = $reflection->getType($property);
+
+            if ($type === false)
+            {
                 continue;
             }
 
@@ -23,12 +33,21 @@ final class FormGenerator
 
             $field['name'] = $reflection->getName($property);
             $field['label'] = ucfirst($field['name']);
-            $field['type'] = $reflection->getTyp($property);
+            $field['type'] = $type;
             $field['required'] = $reflection->getRequired($property);
+
+            if ($type === 'manyToOne')
+            {
+                $field['class'] = $entityBundleNameSpace . '\Entity\\' .
+                    $reflection->getManyToOneTargetEntity($property);
+            }
+
+            if ( ! key_exists())
 
             $import = FormImportUtil::getImport($field['type']);
 
-            if (!in_array($import, $imports)) {
+            if (!in_array($import, $imports))
+            {
                 $imports[] = $import;
             }
 

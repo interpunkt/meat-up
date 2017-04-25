@@ -67,7 +67,8 @@ final class CrudGenerator
 
         $formTypeFile = $formTypeDir . $this->entityClassName . 'Type.php';
 
-        if (FileUtil::writeToFile($formType, $formTypeFile) === false) {
+        if (FileUtil::writeToFile($formType, $formTypeFile) === false)
+        {
             $this->output->writeln('Can\'t write to file ' . $formTypeFile);
             return false;
         }
@@ -89,7 +90,8 @@ final class CrudGenerator
         $controllerFile = $this->bundleRootDir . DIRECTORY_SEPARATOR
             . 'Controller' . DIRECTORY_SEPARATOR . $this->entityClassName . 'Controller.php';
 
-        if (FileUtil::writeToFile($controller, $controllerFile) === false) {
+        if (FileUtil::writeToFile($controller, $controllerFile) === false)
+        {
             $this->output->writeln('Can\'t write to file ' . $controllerFile);
             return false;
         }
