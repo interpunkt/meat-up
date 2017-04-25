@@ -5,7 +5,7 @@ namespace {{ namespace }};
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 {% for import in imports %}
-use {{ import }};
+{{ import }}
 {% endfor %}
 
 class {{ className }} extends AbstractType

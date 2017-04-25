@@ -5,13 +5,13 @@ namespace DL\MeatUp\Util;
 final class FormImportUtil
 {
     private static $formImportList = array(
-        "string" => "Symfony\\Component\\Form\\Extension\\Core\\Type\\TextType",
-        "datetime" => "Symfony\\Component\\Form\\Extension\\Core\\Type\\DateTimeType",
-        "date" => "Symfony\\Component\\Form\\Extension\\Core\\Type\\DateType",
-        "text" => "Symfony\\Component\\Form\\Extension\\Core\\Type\\TextareaType",
-        "integer" => "Symfony\\Component\\Form\\Extension\\Core\\Type\\IntegerType",
-        "manyToOne" => "Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType" . PHP_EOL .
-                "Doctrine\\ORM\\EntityRepository",
+        "string" => "use Symfony\\Component\\Form\\Extension\\Core\\Type\\TextType;",
+        "datetime" => "use Symfony\\Component\\Form\\Extension\\Core\\Type\\DateTimeType;",
+        "date" => "use Symfony\\Component\\Form\\Extension\\Core\\Type\\DateType;",
+        "text" => "use Symfony\\Component\\Form\\Extension\\Core\\Type\\TextareaType;",
+        "integer" => "use Symfony\\Component\\Form\\Extension\\Core\\Type\\IntegerType;",
+        "manyToOne" => "use Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType;" . PHP_EOL .
+                "use Doctrine\\ORM\\EntityRepository;",
     );
 
     public static function getImport($type)
