@@ -7,9 +7,17 @@ use ReflectionClass;
 
 class ReflectionUtil
 {
+    /**
+     * Doctrine annotations
+     */
     const DOCTRINE_ID_ANNOTATION = 'Doctrine\ORM\Mapping\Id';
     const DOCTRINE_COLUMN_ANNOTATION = 'Doctrine\ORM\Mapping\Column';
     const DOCTRINE_MANY_TO_ONE_ANNOTATION = 'Doctrine\ORM\Mapping\ManyToOne';
+
+    /**
+     * meat-up annotations
+     */
+    const MANY_TO_ONE_ORDER_BY = 'DL\MeatUp\Mapping\ManyToOneOrderBy';
 
     private $annotationReader;
     private $reflectedClass;
@@ -100,5 +108,22 @@ class ReflectionUtil
     {
         return $this->getAnnotationAttribute($property,
             self::DOCTRINE_MANY_TO_ONE_ANNOTATION, 'targetEntity');
+    }
+
+    public function hasManyToOneOrderBy($property)
+    {
+        return $this->hasAnnotation($property, self::MANY_TO_ONE_ORDER_BY);
+    }
+
+    public function getManyToOneOrderByName($property)
+    {
+        return $this->getAnnotationAttribute($property,
+            self::MANY_TO_ONE_ORDER_BY, 'propertyName');
+    }
+
+    public function getManyToOneOrderByDirection($property)
+    {
+        return $this->getAnnotationAttribute($property,
+            self::MANY_TO_ONE_ORDER_BY, 'orderDirection');
     }
 }

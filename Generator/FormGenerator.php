@@ -40,6 +40,13 @@ final class FormGenerator
             {
                 $field['class'] = $entityBundleNameSpace . '\Entity\\' .
                     $reflection->getManyToOneTargetEntity($property);
+
+                if ($reflection->hasManyToOneOrderBy($property))
+                {
+                    $field['orderByName'] = $reflection->getManyToOneOrderByName($property);
+                    $field['orderByDirection'] = $reflection->getManyToOneOrderByDirection($property);
+
+                }
             }
 
             $import = FormImportUtil::getImport($field['type']);

@@ -2,8 +2,10 @@
                 'label' => '{{ field["label"] }}',
                 'class'=> '{{ field["class"] }}',
                 'choice_label' => 'name',
+                {% if field["orderByName"] is defined and field["orderByDirection"] is defined %}
                 'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('e')
-                    ->orderBy('e.name', 'ASC');
+                    ->orderBy('e.{{ field["orderByName"] }}', '{{ field["orderByDirection"] }}');
                 }
+                {% endif %}
             ))
