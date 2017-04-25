@@ -9,6 +9,7 @@ final class FormImportUtil
         "datetime" => "Symfony\\Component\\Form\\Extension\\Core\\Type\\DateTimeType",
         "date" => "Symfony\\Component\\Form\\Extension\\Core\\Type\\DateType",
         "text" => "Symfony\\Component\\Form\\Extension\\Core\\Type\\TextareaType",
+        "integer" => "Symfony\\Component\\Form\\Extension\\Core\\Type\\IntegerType",
         "manyToOne" => " Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType",
     );
 
