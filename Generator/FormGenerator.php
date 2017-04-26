@@ -31,10 +31,15 @@ final class FormGenerator
 
             $field = array();
 
-            $field['name'] = $reflection->getName($property);
-            $field['label'] = ucfirst($field['name']);
             $field['type'] = $type;
+            $field['name'] = $reflection->getName($property);
             $field['required'] = $reflection->getRequired($property);
+            $field['label'] = ucfirst($field['name']);
+
+            if ($field['required'] == "true")
+            {
+                $field['label'] .= ' <sup>*</sup>';
+            }
 
             if ($type === 'manyToOne')
             {
@@ -45,6 +50,12 @@ final class FormGenerator
                 {
                     $field['orderByName'] = $reflection->getManyToOneOrderByName($property);
                     $field['orderByDirection'] = $reflection->getManyToOneOrderByDirection($property);
+
+                    if ($field['orderByDirection'] != 'ASC' || $field['orderByDirection'] != 'DESC')
+                    {
+                        throw new \RuntimeException('property orderByDirection of annotation ManyToOneOrderBy' .
+                            ' has to be either ASC or DESC for ' . $property->getName());
+                    }
 
                 }
             }

@@ -135,6 +135,7 @@ final class CrudGenerator
     {
         $this->output->writeln('Generating index view');
         $indexView = IndexViewGenerator::generate(
+            $this->reflection,
             $this->meatUpDir,
             $this->entityClassName
         );

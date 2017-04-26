@@ -18,6 +18,7 @@ class ReflectionUtil
      * meat-up annotations
      */
     const MANY_TO_ONE_ORDER_BY = 'DL\MeatUp\Mapping\ManyToOneOrderBy';
+    const ON_INDEX_PAGE = 'DL\MeatUp\Mapping\OnIndexPage';
 
     private $annotationReader;
     private $reflectedClass;
@@ -125,5 +126,10 @@ class ReflectionUtil
     {
         return $this->getAnnotationAttribute($property,
             self::MANY_TO_ONE_ORDER_BY, 'orderDirection');
+    }
+
+    public function isOnIndexPage($property)
+    {
+        return $this->hasAnnotation($property, self::ON_INDEX_PAGE);
     }
 }
