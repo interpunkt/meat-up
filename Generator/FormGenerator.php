@@ -24,6 +24,15 @@ final class FormGenerator
 
             $type = $reflection->getType($property);
 
+            if($type == "text")
+            {
+                if( self::isCkeditor( $property, $reflection ) == 'ckeditor' )
+                {
+                    $type = 'ckeditor';
+                }
+
+            }
+
             if ($type === false)
             {
                 continue;
@@ -31,33 +40,15 @@ final class FormGenerator
 
             $field = array();
 
-            $field['type'] = $type;
             $field['name'] = $reflection->getName($property);
-            $field['required'] = $reflection->getRequired($property);
             $field['label'] = ucfirst($field['name']);
-
-            if ($field['required'] == "true")
-            {
-                $field['label'] .= ' <sup>*</sup>';
-            }
+            $field['type'] = $type;
+            $field['required'] = $reflection->getRequired($property);
 
             if ($type === 'manyToOne')
             {
                 $field['class'] = $entityBundleNameSpace . '\Entity\\' .
                     $reflection->getManyToOneTargetEntity($property);
-
-                if ($reflection->hasManyToOneOrderBy($property))
-                {
-                    $field['orderByName'] = $reflection->getManyToOneOrderByName($property);
-                    $field['orderByDirection'] = $reflection->getManyToOneOrderByDirection($property);
-
-                    if ($field['orderByDirection'] != 'ASC' && $field['orderByDirection'] != 'DESC')
-                    {
-                        throw new \RuntimeException('property orderByDirection of annotation ManyToOneOrderBy' .
-                            ' has to be either ASC or DESC for ' . $property->getName());
-                    }
-
-                }
             }
 
             $import = FormImportUtil::getImport($field['type']);
@@ -84,5 +75,18 @@ final class FormGenerator
         );
 
         return $formType;
+    }
+
+    static protected function isCkeditor( $property, $reflection )
+    {
+        $properties = $reflection->getPropertyAnnotations($property);
+
+        foreach( $properties as $value )
+        {
+            if($value->type == 'ckeditor' )
+            {
+                return 'ckeditor';
+            }
+        }
     }
 }

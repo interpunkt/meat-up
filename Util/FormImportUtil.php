@@ -12,6 +12,7 @@ final class FormImportUtil
         "integer" => "use Symfony\\Component\\Form\\Extension\\Core\\Type\\IntegerType;",
         "manyToOne" => "use Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType;" . PHP_EOL .
                 "use Doctrine\\ORM\\EntityRepository;",
+        "ckeditor" => "use Ivory\\CKEditorBundle\\Form\\Type\\CKEditorType;"
     );
 
     public static function getImport($type)
