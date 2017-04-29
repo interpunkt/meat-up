@@ -40,31 +40,39 @@ final class FormGenerator
 
             $field = array();
 
-            $field['name'] = $reflection->getName($property);
-            $field['label'] = ucfirst($field['name']);
             $field['type'] = $type;
+            $field['name'] = $reflection->getName($property);
             $field['required'] = $reflection->getRequired($property);
+            $field['label'] = ucfirst($field['name']);
 
+            if ($field['required'] == "true")
+            {
+                $field['label'] .= ' <sup>*</sup>';
+            }
             if ($type === 'manyToOne')
             {
                 $field['class'] = $entityBundleNameSpace . '\Entity\\' .
                     $reflection->getManyToOneTargetEntity($property);
+                if ($reflection->hasManyToOneOrderBy($property))
+                {
+                    $field['orderByName'] = $reflection->getManyToOneOrderByName($property);
+                    $field['orderByDirection'] = $reflection->getManyToOneOrderByDirection($property);
+                    if ($field['orderByDirection'] != 'ASC' && $field['orderByDirection'] != 'DESC')
+                    {
+                        throw new \RuntimeException('property orderByDirection of annotation ManyToOneOrderBy' .
+                            ' has to be either ASC or DESC for ' . $property->getName());
+                    }
+                }
             }
-
             $import = FormImportUtil::getImport($field['type']);
-
             if (!in_array($import, $imports))
             {
                 $imports[] = $import;
             }
-
             $fields[] = $field;
         }
-
         sort($imports);
-
         $twig = TwigUtil::getTwigEnvironment($meatUpDir);
-
         $formType = $twig->render('formType.php.twig',
             array(
                 'namespace' => $entityBundleNameSpace . '\Form\Type',
@@ -73,7 +81,6 @@ final class FormGenerator
                 'imports' => $imports
             )
         );
-
         return $formType;
     }
 
