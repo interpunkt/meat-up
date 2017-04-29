@@ -1,6 +1,10 @@
 Installation
 ============
 
+### Require
+
+[Symfony 2.8.* Skeleton Application](https://github.com/interpunkt/ip-symfony-skeleton)
+
 Step 1: Download the Bundle
 ---------------------------
 
