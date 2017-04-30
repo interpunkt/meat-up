@@ -24,6 +24,12 @@ final class FormGenerator
 
             $type = $reflection->getType($property);
 
+            // check different Types
+            if( self::isHiddenType( $property, $reflection ) )
+            {
+                $type = 'hidden';
+            }
+
             if($type == "text")
             {
                 if( self::isCkeditor( $property, $reflection ) == 'ckeditor' )
@@ -31,6 +37,15 @@ final class FormGenerator
                     $type = 'ckeditor';
                 }
 
+            }
+
+            // check if Field is vichImage Field
+            if( $type === "string" )
+            {
+                if( self::isVichImage( $property, $reflection ) )
+                {
+                    $type = 'vichImage';
+                }
             }
 
             if ($type === false)
@@ -93,6 +108,44 @@ final class FormGenerator
             if($value->type == 'ckeditor' )
             {
                 return 'ckeditor';
+            }
+        }
+    }
+
+    /*
+     * Check if the @formtype::type Field from Entity has 'hidden' as value
+     */
+    static protected function isHiddenType( $property, $reflection )
+    {
+        $properties = $reflection->getPropertyAnnotations($property);
+
+        foreach( $properties as $value )
+        {
+            if( isset( $value->type ))
+            {
+                if($value->type === 'hidden' )
+                {
+                    return 'dieses Feld ignorieren..';
+                }
+            }
+        }
+    }
+
+    static protected function isVichImage( $property, $reflection )
+    {
+        $properties = $reflection->getPropertyAnnotations($property);
+
+        foreach( $properties as $value )
+        {
+            if(isset($value->mimeTypes))
+            {
+                dump($value->mimeTypes);
+                return 'vichImage';
+            }
+
+            if($value == 'Vich\UploadableField' )
+            {
+                return 'vichImage';
             }
         }
     }
