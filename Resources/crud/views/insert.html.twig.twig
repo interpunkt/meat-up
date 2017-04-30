@@ -15,18 +15,132 @@
 {{ '{% endblock %}' }}
 
 {{ '{% block content %}' }}
-    <section class="content">
-        <div class="row">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-8">
-                {{ '{{ form_start(form) }}' }}
-                {{ '{{form_widget(form) }}' }}
-                <div class="bar-save pull-right">
-                    <input type="submit" value="{{ '{{ title }}' }} erstellen" />
-                </div>
-                {{ '{{ form_end(form) }}' }}
+<section class="content">
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            {{ '{{ form_start(form) }}' }}
+            {{ '{{ form_widget(form) }}' }}
+            <div class="bar-save pull-right">
+                <input type="submit" value="{{ '{{ title }}' }} erstellen" />
             </div>
-            <div class="col-sm-2"></div>
+            {{ '{{ form_end(form) }}' }}
         </div>
-    </section>
+        <div class="col-sm-2"></div>
+    </div>
+
+
+</section>
+{{ '{% endblock %}' }}
+
+{{ '{% block layoutScripts %}' }}
+{{ '{{ parent() }}' }}
+<script>
+    $(document).ready(function () {
+        function previewImage(input, imgOrigId, hiddenContainerId, isCrop) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                var imgOrig = $(imgOrigId);
+                reader.onload = function (e) {
+                    imgOrig.attr('src', e.target.result);
+                    if (isCrop) {
+                        // Abstand zum Button muss vergrössert werden
+                        $('.container').css('marginBottom', '30px');
+                        // alter Cropper muss gelöscht werden, bevor neues Bild angezeigt werden kann
+                        imgOrig.cropper('destroy');
+                        imgOrig.cropper({
+                            aspectRatio: 3 / 2, crop: function (e) {
+                                $('#{{ '{{ title|lower }}' }}_bildX').val(parseInt(e.x));
+                                $('#{{ '{{ title|lower }}' }}_bildY').val(parseInt(e.y));
+                                $('#{{ '{{ title|lower }}' }}_bildBreite').val(parseInt(e.width));
+                                $('#{{ '{{ title|lower }}' }}_bildHoehe').val(parseInt(e.height));
+                            }, preview: '.crop'
+                        });
+                    }
+                };
+                reader.readAsDataURL(input.files[0]);
+                $(hiddenContainerId).show();
+            }
+        }
+
+
+        if ($("#{{ '{{ title|lower }}' }}_bildDatei_file").attr('src') === undefined) {
+            $("#img-orig").css("display", "none");
+        }
+
+        $("#{{ '{{ title|lower }}' }}_bildDatei_file").change(function () {
+            $("#imageModal").modal('show');
+            $('#imageModal').on('shown.bs.modal', function (e) {
+                $("#img-orig").css("display", "block");
+            })
+            previewImage(this, '#img-orig', '.preview', true);
+        });
+    });
+</script>
+
+{{ '{% endblock %}' }}
+
+{{ '{% block modal %}' }}
+<style>
+    .modal-dialog {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .modal-content {
+        height: auto;
+        min-height: 100%;
+        border-radius: 0;
+    }
+    #img-orig{
+        width: 800px;
+        height: 600px;
+        margin: 0;
+        padding: 0;
+    }
+</style>
+
+{{ '{# Image modal #} ' }}
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Bild zuschneiden</h4>
+            </div>
+            <div class="modal-body">
+                {#<div class="control-label text-danger"><strong>Bitte beachten Sie, dass das Bild
+                        zugeschnitten wird.</strong></div>#}
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- Wrap the image or canvas element with a block element (container) -->
+                        <div style="height: 400px; width: 600px; margin: 0px auto;">
+                            <img style="max-width: 100%;" id="img-orig" src="#"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <style>
+                            .crop {
+                                overflow: hidden;
+                                width: 600px;
+                                height: 400px;
+                                margin: 0px auto;
+                            }
+                        </style>
+                        <div class="crop">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-link" data-dismiss="modal" aria-label="Close">Abbrechen</button>
+                    <a href="#" class="btn btn-danger" data-dismiss="modal">Bild zuschneiden</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {{ '{% endblock %}' }}
