@@ -10,15 +10,8 @@ class ReflectionUtil
     /**
      * Doctrine annotations
      */
-    const DOCTRINE_ID_ANNOTATION = 'Doctrine\ORM\Mapping\Id';
     const DOCTRINE_COLUMN_ANNOTATION = 'Doctrine\ORM\Mapping\Column';
     const DOCTRINE_MANY_TO_ONE_ANNOTATION = 'Doctrine\ORM\Mapping\ManyToOne';
-
-    /**
-     * meat-up annotations
-     */
-    const MANY_TO_ONE_ORDER_BY = 'DL\MeatUp\Mapping\ManyToOneOrderBy';
-    const ON_INDEX_PAGE = 'DL\MeatUp\Mapping\OnIndexPage';
 
     private $annotationReader;
     private $reflectedClass;
@@ -43,11 +36,6 @@ class ReflectionUtil
     public function getPropertyAnnotations($property)
     {
         return $this->annotationReader->getPropertyAnnotations($property);
-    }
-
-    public function isId($property)
-    {
-        return $this->hasAnnotation($property, self::DOCTRINE_ID_ANNOTATION);
     }
 
     public function getType($property)
@@ -97,7 +85,7 @@ class ReflectionUtil
         return $annotation->$attributeName;
     }
 
-    public function hasAnnotation($property, $annotationName)
+    private function hasAnnotation($property, $annotationName)
     {
         $annotation = $this->annotationReader
             ->getPropertyAnnotation($property, $annotationName);
@@ -105,31 +93,93 @@ class ReflectionUtil
         return !empty($annotation);
     }
 
-    public function getManyToOneTargetEntity($property)
+    /**
+     * Is called when a function is not defined. In this case it is used to resolve get and has
+     * function calls
+     *
+     * @param string $method
+     * @param array  $arguments
+     *
+     * @return mixed The returned value from the resolved method.
+     *
+     * @throws \BadMethodCallException If the method called is invalid
+     */
+    public function __call($method, $arguments)
     {
-        return $this->getAnnotationAttribute($property,
-            self::DOCTRINE_MANY_TO_ONE_ANNOTATION, 'targetEntity');
+        if (count($arguments) != 1)
+        {
+            throw new \BadMethodCallException(
+                'Method has has to be called with exactly one parameter'
+            );
+        }
+
+        $property = $arguments[0];
+
+        if (strpos($method, 'get') === 0)
+        {
+            return $this->resolveGetCall(substr($method, 3), $property);
+        }
+
+        if (strpos($method, 'has') === 0)
+        {
+            return $this->resolveHasCall(substr($method, 3), $property);
+        }
+
+        throw new \BadMethodCallException(
+            "Undefined method '$method'. The method name must start with either get or has!"
+        );
     }
 
-    public function hasManyToOneOrderBy($property)
+    /**
+     * Resolves a magic method call to check if an annotation exists
+     *
+     * @param string $key       The name of the corresponding annotation
+     * @param string $property  The arguments to pass at method call
+     *
+     * @throws \BadMethodCallException If the method called is invalid or the requested annotation does not exist
+     *
+     * @return boolean
+     */
+    private function resolveHasCall($key, $property)
     {
-        return $this->hasAnnotation($property, self::MANY_TO_ONE_ORDER_BY);
+        $resolvedAnnotation = AnnotationResolver::resolve($key);
+
+        if ($resolvedAnnotation === false)
+        {
+            throw new \BadMethodCallException(
+                'Method has' . $key . '. is not implemented in AnnotationResolver'
+            );
+        }
+
+        return $this->hasAnnotation($property, $resolvedAnnotation['name']);
+
     }
 
-    public function getManyToOneOrderByName($property)
+    /**
+     * Resolves a magic method call to return an attribute of an annotation
+     *
+     * @param string $key       The name of the corresponding attribute
+     * @param string $property  The arguments to pass at method call
+     *
+     * @throws \BadMethodCallException If the method called is invalid or the requested attribute does not exist
+     *
+     * @return mixed
+     */
+    private function resolveGetCall($key, $property)
     {
-        return $this->getAnnotationAttribute($property,
-            self::MANY_TO_ONE_ORDER_BY, 'propertyName');
-    }
+        $resolvedAnnotation = AnnotationResolver::resolve($key);
 
-    public function getManyToOneOrderByDirection($property)
-    {
-        return $this->getAnnotationAttribute($property,
-            self::MANY_TO_ONE_ORDER_BY, 'orderDirection');
-    }
+        if ($resolvedAnnotation === false)
+        {
+            throw new \BadMethodCallException(
+                'Method has' . $key . '. is not implemented in AnnotationResolver'
+            );
+        }
 
-    public function isOnIndexPage($property)
-    {
-        return $this->hasAnnotation($property, self::ON_INDEX_PAGE);
+        return $this->getAnnotationAttribute(
+            $property,
+            $resolvedAnnotation['name'],
+            $resolvedAnnotation['attribute']
+        );
     }
 }

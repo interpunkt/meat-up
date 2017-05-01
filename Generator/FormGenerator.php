@@ -17,7 +17,7 @@ final class FormGenerator
 
         foreach ($reflection->getProperties() as $property)
         {
-            if ($reflection->isId($property))
+            if ($reflection->hasId($property))
             {
                 continue;
             }
@@ -38,7 +38,7 @@ final class FormGenerator
 
             if ($field['required'] == "true")
             {
-                $field['label'] .= ' <sup>*</sup>';
+                $field['label'] .= ' *';
             }
 
             if ($type === 'manyToOne')

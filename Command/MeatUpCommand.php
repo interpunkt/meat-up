@@ -38,8 +38,13 @@ class MeatUpCommand extends ContainerAwareCommand
             ->setOutput($output)
             ->build();
 
-        $ret = $crudGenerator->generate();
-
-        $output->writeln($ret);
+        if ($crudGenerator->generate())
+        {
+            $output->writeln('Successfully created CRUD components');
+        }
+        else
+        {
+            $output->writeln('Error while creating CRUD components');
+        }
     }
 }

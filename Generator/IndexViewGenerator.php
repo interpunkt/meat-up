@@ -10,14 +10,18 @@ final class IndexViewGenerator
     public static function generate(ReflectionUtil $reflection, $meatUpDir, $entityClassName)
     {
         $indexPropertyLabels = array();
-        $indexPropertyNames = array();
+        $indexProperties = array();
 
         foreach ($reflection->getProperties() as $property)
         {
-            if ($reflection->isOnIndexPage($property))
+            if ($reflection->hasOnIndexPage($property))
             {
+                $property = array();
                 $propertyName = $property->getName();
-                $indexPropertyNames[] = $propertyName;
+
+                $property['name'] = $propertyName;
+
+                $indexProperties[] = $property;
                 $indexPropertyLabels[] = ucfirst($propertyName);
             }
         }
@@ -28,7 +32,7 @@ final class IndexViewGenerator
             array(
                 'name' => $entityClassName,
                 'indexPropertyLabels' => $indexPropertyLabels,
-                'indexPropertyNames' => $indexPropertyNames
+                'indexPropertyNames' => $indexProperties
             )
         );
 
