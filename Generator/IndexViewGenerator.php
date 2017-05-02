@@ -16,12 +16,12 @@ final class IndexViewGenerator
         {
             if ($reflection->hasOnIndexPage($property))
             {
-                $property = array();
+                $indexProperty = array();
                 $propertyName = $property->getName();
 
-                $property['name'] = $propertyName;
+                $indexProperty['name'] = $propertyName;
 
-                $indexProperties[] = $property;
+                $indexProperties[] = $indexProperty;
                 $indexPropertyLabels[] = ucfirst($propertyName);
             }
         }
