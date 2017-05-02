@@ -3,7 +3,7 @@
 namespace DL\MeatUp\Generator;
 
 use DL\MeatUp\Util\ReflectionUtil;
-use DL\MeatUp\Util\TwigUtil;
+use DL\MeatUp\Twig\MeatUpTwig;
 
 final class IndexViewGenerator
 {
@@ -32,7 +32,7 @@ final class IndexViewGenerator
             }
         }
 
-        $twig = TwigUtil::getTwigEnvironment($meatUpDir);
+        $twig = MeatUpTwig::get($meatUpDir);
 
         $indexView = $twig->render('views/index.html.twig.twig',
             array(

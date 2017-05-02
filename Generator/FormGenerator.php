@@ -4,7 +4,7 @@ namespace DL\MeatUp\Generator;
 
 use DL\MeatUp\Util\FormImportUtil;
 use DL\MeatUp\Util\ReflectionUtil;
-use DL\MeatUp\Util\TwigUtil;
+use DL\MeatUp\Twig\MeatUpTwig;
 
 final class FormGenerator
 {
@@ -72,7 +72,7 @@ final class FormGenerator
 
         sort($imports);
 
-        $twig = TwigUtil::getTwigEnvironment($meatUpDir);
+        $twig = MeatUpTwig::get($meatUpDir);
 
         $formType = $twig->render('formType.php.twig',
             array(

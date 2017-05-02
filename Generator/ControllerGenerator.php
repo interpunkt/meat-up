@@ -2,7 +2,7 @@
 
 namespace DL\MeatUp\Generator;
 
-use DL\MeatUp\Util\TwigUtil;
+use DL\MeatUp\Twig\MeatUpTwig;
 
 class ControllerGenerator
 {
@@ -10,7 +10,7 @@ class ControllerGenerator
                                     $entityClassName, $entityBundleNameSpace)
     {
 
-        $twig = TwigUtil::getTwigEnvironment($meatUpDir);
+        $twig = MeatUpTwig::get($meatUpDir);
 
         $controller = $twig->render('controller.php.twig',
             array(
