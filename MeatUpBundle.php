@@ -1,6 +1,6 @@
 <?php
 
-namespace DL\MeatUp;
+namespace Ip\MeatUp;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

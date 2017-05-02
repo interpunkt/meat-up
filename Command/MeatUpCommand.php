@@ -1,8 +1,8 @@
 <?php
 
-namespace DL\MeatUp\Command;
+namespace Ip\MeatUp\Command;
 
-use DL\MeatUp\Generator\CrudGeneratorBuilder;
+use Ip\MeatUp\Generator\CrudGeneratorBuilder;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,7 +14,7 @@ class MeatUpCommand extends ContainerAwareCommand
     {
         $this
             // the name of the command (the part after "bin/console")
-            ->setName('dl:meat-up')
+            ->setName('ip:meat-up')
 
             // the short description shown while running "php bin/console list"
             ->setDescription('Creates a FormType, Controller and Twig files from your entitiy')

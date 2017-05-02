@@ -1,6 +1,6 @@
 <?php
 
-namespace DL\MeatUp\Generator;
+namespace Ip\MeatUp\Generator;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;

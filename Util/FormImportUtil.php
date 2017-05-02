@@ -1,6 +1,6 @@
 <?php
 
-namespace DL\MeatUp\Util;
+namespace Ip\MeatUp\Util;
 
 final class FormImportUtil
 {

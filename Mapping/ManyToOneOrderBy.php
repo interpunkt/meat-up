@@ -1,6 +1,6 @@
 <?php
 
-namespace DL\MeatUp\Mapping;
+namespace Ip\MeatUp\Mapping;
 
 use Doctrine\Common\Annotations\Annotation\Required;
 

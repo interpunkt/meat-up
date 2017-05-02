@@ -1,8 +1,8 @@
 <?php
 
-namespace DL\MeatUp\Generator;
+namespace Ip\MeatUp\Generator;
 
-use DL\MeatUp\Twig\MeatUpTwig;
+use Ip\MeatUp\Twig\MeatUpTwig;
 
 class UpdateViewGenerator
 {

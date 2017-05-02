@@ -1,6 +1,6 @@
 <?php
 
-namespace DL\MeatUp\Util;
+namespace Ip\MeatUp\Util;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use ReflectionClass;
