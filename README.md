@@ -13,7 +13,7 @@ Open a command console, enter your project directory and execute the
 following command to download the latest stable version of this bundle:
 
 ```console
-$ composer require daniellehrner/meat-up
+$ composer require ip/meat-up
 ```
 
 This command requires you to have Composer installed globally, as explained
@@ -38,7 +38,7 @@ class AppKernel extends Kernel
         $bundles = array(
             // ...
 
-            new DL\MeatUp\MeatUpBundle(),
+            new Ip\MeatUp\MeatUpBundle(),
         );
 
         // ...
@@ -54,5 +54,5 @@ Step 3: Usage
 To create the FormType, Controller and the views execute the following console command with the fully qualified class name of the entity:
 
 ```console
-$ php app/console dl:meat-up "DevPro\adminBundle\Entity\example"
+$ php app/console ip:meat-up "DevPro\adminBundle\Entity\example"
 ```
