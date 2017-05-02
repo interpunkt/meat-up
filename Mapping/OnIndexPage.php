@@ -16,6 +16,11 @@ class OnIndexPage
     /**
      * @var string
      */
+    public $label;
+
+    /**
+     * @var string
+     */
     public $filter;
 
     /**

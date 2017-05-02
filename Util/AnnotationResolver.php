@@ -23,6 +23,7 @@ class AnnotationResolver
         'ManyToOneOrderByName' => ['name' => 'DL\MeatUp\Mapping\ManyToOneOrderBy', 'attribute' => 'propertyName'],
         'ManyToOneOrderByDirection' => ['name' => 'DL\MeatUp\Mapping\ManyToOneOrderBy', 'attribute' => 'orderDirection'],
         'OnIndexPage' => ['name' => 'DL\MeatUp\Mapping\OnIndexPage'],
+        'OnIndexPageLabel' => ['name' => 'DL\MeatUp\Mapping\OnIndexPage', 'attribute' => 'label'],
 
         // Doctrine annotations
         'Id' => ['name' => 'Doctrine\ORM\Mapping\Id'],

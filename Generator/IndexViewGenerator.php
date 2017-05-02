@@ -18,8 +18,17 @@ final class IndexViewGenerator
             {
                 $propertyName = $property->getName();
 
+                $indexPropertyLabel = $reflection->getOnIndexPageLabel();
+
+                if ($indexPropertyLabel === false) {
+                    $indexPropertyLabels[] = ucfirst($propertyName);
+                }
+                else {
+                    $indexPropertyLabels[] = $indexPropertyLabel;
+                }
+
                 $indexProperties[] = $propertyName;
-                $indexPropertyLabels[] = ucfirst($propertyName);
+
             }
         }
 
