@@ -1,6 +1,6 @@
 <?php
 
-namespace DL\MeatUp\Util;
+namespace Ip\MeatUp\Util;
 
 class AnnotationResolver
 {
@@ -19,11 +19,11 @@ class AnnotationResolver
      */
     private static $annotationsList = array(
         // MeatUp annotations
-        'ManyToOneOrderBy' => ['name' => 'DL\MeatUp\Mapping\ManyToOneOrderBy'],
-        'ManyToOneOrderByName' => ['name' => 'DL\MeatUp\Mapping\ManyToOneOrderBy', 'attribute' => 'propertyName'],
-        'ManyToOneOrderByDirection' => ['name' => 'DL\MeatUp\Mapping\ManyToOneOrderBy', 'attribute' => 'orderDirection'],
-        'OnIndexPage' => ['name' => 'DL\MeatUp\Mapping\OnIndexPage'],
-        'OnIndexPageLabel' => ['name' => 'DL\MeatUp\Mapping\OnIndexPage', 'attribute' => 'label'],
+        'ManyToOneOrderBy' => ['name' => 'Ip\MeatUp\Mapping\ManyToOneOrderBy'],
+        'ManyToOneOrderByName' => ['name' => 'Ip\MeatUp\Mapping\ManyToOneOrderBy', 'attribute' => 'propertyName'],
+        'ManyToOneOrderByDirection' => ['name' => 'Ip\MeatUp\Mapping\ManyToOneOrderBy', 'attribute' => 'orderDirection'],
+        'OnIndexPage' => ['name' => 'Ip\MeatUp\Mapping\OnIndexPage'],
+        'OnIndexPageLabel' => ['name' => 'Ip\MeatUp\Mapping\OnIndexPage', 'attribute' => 'label'],
 
         // Doctrine annotations
         'Id' => ['name' => 'Doctrine\ORM\Mapping\Id'],

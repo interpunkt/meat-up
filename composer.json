@@ -1,12 +1,12 @@
 {
-    "name": "daniellehrner/meat-up",
+    "name": "ip/meat-up",
     "description": "Code generator for Symfony2",
     "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
         {
             "name": "Daniel Lehrner",
-            "email": "daniel@lehrner.me"
+            "email": "daniel.lehrner@inter-punkt.ch"
         }
     ],
     "require": {
@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "DL\\MeatUp\\": ""
+            "Ip\\MeatUp\\": ""
         }
     }
 }

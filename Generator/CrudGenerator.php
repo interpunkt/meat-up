@@ -1,9 +1,9 @@
 <?php
 
-namespace DL\MeatUp\Generator;
+namespace Ip\MeatUp\Generator;
 
-use DL\MeatUp\Util\FileUtil;
-use DL\MeatUp\Util\ReflectionUtil;
+use Ip\MeatUp\Util\FileUtil;
+use Ip\MeatUp\Util\ReflectionUtil;
 use Symfony\Component\Console\Output\OutputInterface;
 
 final class CrudGenerator

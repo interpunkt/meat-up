@@ -1,8 +1,8 @@
 <?php
 
-namespace DL\MeatUp\Command;
+namespace Ip\MeatUp\Command;
 
-use DL\MeatUp\Generator\CrudGeneratorBuilder;
+use Ip\MeatUp\Generator\CrudGeneratorBuilder;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

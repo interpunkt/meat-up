@@ -1,8 +1,8 @@
 <?php
 
-namespace DL\MeatUp\Generator;
+namespace Ip\MeatUp\Generator;
 
-use DL\MeatUp\Util\TwigUtil;
+use Ip\MeatUp\Util\TwigUtil;
 
 class InsertViewGenerator
 {
