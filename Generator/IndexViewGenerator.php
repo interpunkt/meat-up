@@ -26,6 +26,9 @@ final class IndexViewGenerator
 
                 $indexPropertyFilter = $reflection->getOnIndexPageFilter($property);
                 $indexPropertyFilters[]  = !empty($indexPropertyFilter) ? $indexPropertyFilter : '';
+
+                $indexPropertyFilterArgument = $reflection->getOnIndexPageFilterParameters($property);
+                $indexPropertyFilterArguments[]  = !empty($indexPropertyFilterArgument) ? $indexPropertyFilterArgument : '';
             }
         }
 
@@ -36,7 +39,8 @@ final class IndexViewGenerator
                 'name' => $entityClassName,
                 'indexPropertyLabels' => $indexPropertyLabels,
                 'indexPropertyNames' => $indexProperties,
-                'indexPropertyFilters' => $indexPropertyFilters
+                'indexPropertyFilters' => $indexPropertyFilters,
+                'indexPropertyFilterArguments' => $indexPropertyFilterArguments
             )
         );
 

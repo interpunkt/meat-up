@@ -25,6 +25,7 @@ class AnnotationResolver
         'OnIndexPage' => ['name' => 'DL\MeatUp\Mapping\OnIndexPage'],
         'OnIndexPageLabel' => ['name' => 'DL\MeatUp\Mapping\OnIndexPage', 'attribute' => 'label'],
         'OnIndexPageFilter' => ['name' => 'DL\MeatUp\Mapping\OnIndexPage', 'attribute' => 'filter'],
+        'OnIndexPageFilterParameters' => ['name' => 'DL\MeatUp\Mapping\OnIndexPage', 'attribute' => 'filterParameters'],
 
         // Doctrine annotations
         'Id' => ['name' => 'Doctrine\ORM\Mapping\Id'],

@@ -73,11 +73,9 @@
                             {{ '{% for item in ' }}{{ name }}{{ ' %}' }}
                                 <tr>
 {% for name in indexPropertyNames %}
-    {% set propertyFilter = indexPropertyFilters[loop.index0] %}
-                                    <td class="vert-align">
-                                        {{ '{{ item.'}}{{ name}}
-                                        {% if propertyFilter is not empty %}{{ ' | '~propertyFilter }}{% endif %}
-                                        {{ ' }}' }}</td>
+{% set propertyFilter = indexPropertyFilters[loop.index0] %}
+{% set propertyFilterParameter = indexPropertyFilterArguments[loop.index0] %}
+                                    <td class="vert-align">{{ '{{ item.'}}{{ name}}{% if propertyFilter is not empty %}{{ ' | '~propertyFilter }}{% if propertyFilterParameter is not empty %}{{ '('~propertyFilterParameter~')' }}{% endif %}{% endif %}{{ ' }}' }}</td>
 {% endfor %}
                                     <td class="vert-align">
                                         <div class="btn-group btn-group-sm">
