@@ -1,3 +1,8 @@
+Requirements
+============
+
+[Symfony 2.8.* Skeleton Application](https://github.com/interpunkt/ip-symfony-skeleton)
+
 Installation
 ============
 
