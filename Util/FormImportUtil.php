@@ -12,6 +12,9 @@ final class FormImportUtil
         "integer" => "use Symfony\\Component\\Form\\Extension\\Core\\Type\\IntegerType;",
         "manyToOne" => "use Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType;" . PHP_EOL .
                 "use Doctrine\\ORM\\EntityRepository;",
+        "ckeditor" => "use Ivory\\CKEditorBundle\\Form\\Type\\CKEditorType;",
+        "vichImage" => "use Vich\\UploaderBundle\\Form\\Type\\VichImageType;",
+        "hidden" => "use Symfony\\Component\\Form\\Extension\\Core\\Type\\HiddenType;"
     );
 
     public static function getImport($type)

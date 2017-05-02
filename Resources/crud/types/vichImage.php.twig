@@ -1,0 +1,6 @@
+            ->add('{{ field["name"] }}', VichImageType::class, array(
+                'label' => '{{ field["label"] }}',
+                'required' => {{ field["required"] }},
+                'allow_delete'  => true, // not mandatory, default is true
+                'download_link' => true, // not mandatory, default is true
+            ))
