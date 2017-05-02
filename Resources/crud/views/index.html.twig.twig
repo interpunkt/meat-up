@@ -73,7 +73,11 @@
                             {{ '{% for item in ' }}{{ name }}{{ ' %}' }}
                                 <tr>
 {% for name in indexPropertyNames %}
-                                    <td class="vert-align">{{ '{{ item.'~name~' }}' }}</td>
+    {% set propertyFilter = indexPropertyFilters[loop.index0] %}
+                                    <td class="vert-align">
+                                        {{ '{{ item.'}}{{ name}}
+                                        {% if propertyFilter is not empty %}{{ ' | '~propertyFilter }}{% endif %}
+                                        {{ ' }}' }}</td>
 {% endfor %}
                                     <td class="vert-align">
                                         <div class="btn-group btn-group-sm">

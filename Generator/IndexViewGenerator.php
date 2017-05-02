@@ -9,26 +9,23 @@ final class IndexViewGenerator
 {
     public static function generate(ReflectionUtil $reflection, $meatUpDir, $entityClassName)
     {
-        $indexPropertyLabels = array();
         $indexProperties = array();
+        $indexPropertyLabels = array();
+        $indexPropertyFilters = array();
+        $indexPropertyFilterArguments = array();
 
         foreach ($reflection->getProperties() as $property)
         {
             if ($reflection->hasOnIndexPage($property))
             {
                 $propertyName = $property->getName();
-
-                $indexPropertyLabel = $reflection->getOnIndexPageLabel($property);
-
-                if (empty($indexPropertyLabel)) {
-                    $indexPropertyLabels[] = ucfirst($propertyName);
-                }
-                else {
-                    $indexPropertyLabels[] = $indexPropertyLabel;
-                }
-
                 $indexProperties[] = $propertyName;
 
+                $indexPropertyLabel = $reflection->getOnIndexPageLabel($property);
+                $indexPropertyLabels[] = !empty($indexPropertyLabel) ? $indexPropertyLabel : ucfirst($propertyName);
+
+                $indexPropertyFilter = $reflection->getOnIndexPageFilter($property);
+                $indexPropertyFilters[]  = !empty($indexPropertyFilter) ? $indexPropertyFilter : '';
             }
         }
 
@@ -38,7 +35,8 @@ final class IndexViewGenerator
             array(
                 'name' => $entityClassName,
                 'indexPropertyLabels' => $indexPropertyLabels,
-                'indexPropertyNames' => $indexProperties
+                'indexPropertyNames' => $indexProperties,
+                'indexPropertyFilters' => $indexPropertyFilters
             )
         );
 
