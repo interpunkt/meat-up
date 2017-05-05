@@ -1,8 +1,8 @@
 <?php
 
-namespace Ip\Twig;
+namespace Ip\MeatUp\Twig;
 
-class IndexFilerExtension extends \Twig_Extension
+class IndexFilterExtension extends \Twig_Extension
 {
     public function getFilters()
     {

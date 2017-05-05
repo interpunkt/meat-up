@@ -2,8 +2,6 @@
 
 namespace Ip\MeatUp\Twig;
 
-use Ip\MeatUp\Twig\IndexFilerExtension;
-
 class MeatUpTwig
 {
     public static function get($meatUpDir)
@@ -19,7 +17,7 @@ class MeatUpTwig
             )
         );
 
-        $twigEnv->addExtension(new IndexFilerExtension());
+        $twigEnv->addExtension(new IndexFilterExtension());
 
         return $twigEnv;
     }
