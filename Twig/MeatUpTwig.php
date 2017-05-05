@@ -1,8 +1,8 @@
 <?php
 
-namespace DL\MeatUp\Twig;
+namespace Ip\MeatUp\Twig;
 
-use DL\Twig\IndexFilerExtension;
+use Ip\MeatUp\Twig\IndexFilerExtension;
 
 class MeatUpTwig
 {

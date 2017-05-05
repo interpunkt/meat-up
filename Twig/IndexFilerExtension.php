@@ -1,8 +1,6 @@
 <?php
 
-
-namespace DL\Twig;
-
+namespace Ip\Twig;
 
 class IndexFilerExtension extends \Twig_Extension
 {
