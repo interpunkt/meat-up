@@ -9,11 +9,6 @@ namespace Ip\MeatUp\Mapping;
 class OnIndexPage
 {
     /**
-     * @var int
-     */
-    public $position;
-
-    /**
      * @var string
      */
     public $label;
