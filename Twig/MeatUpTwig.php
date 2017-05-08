@@ -19,6 +19,7 @@ class MeatUpTwig
 
         $twigEnv->addExtension(new IndexFilterExtension());
         $twigEnv->addExtension(new ManyToOneOrderByExtension());
+        $twigEnv->addExtension(new ManyToOneChoiceLabelsExtension());
 
         return $twigEnv;
     }
