@@ -48,8 +48,8 @@ final class FormGenerator
 
                 if ($reflection->hasManyToOneOrderBy($property))
                 {
-                    $field['orderByNames'] = $reflection->getManyToOneOrderByName($property);
-                    $field['orderByDirections'] = $reflection->getManyToOneOrderByDirection($property);
+                    $field['orderByNames'] = $reflection->getManyToOneOrderByNames($property);
+                    $field['orderByDirections'] = $reflection->getManyToOneOrderByDirections($property);
                 }
             }
 
