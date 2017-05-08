@@ -33,7 +33,7 @@ final class ManyToOneOrderByExtensionTest extends TestCase
         $this->assertEquals(
             'manyToOneOrderByFilter',
             $filters[0]->getName(),
-            'The filter of ManyToOneOrderByExtension should be name manyToOneOrderByFilter'
+            'The filter of ManyToOneOrderByExtension has to be named manyToOneOrderByFilter'
         );
     }
 

@@ -26,6 +26,8 @@ class AnnotationResolver
         'OnIndexPageLabel' => ['name' => 'Ip\MeatUp\Mapping\OnIndexPage', 'attribute' => 'label'],
         'OnIndexPageFilter' => ['name' => 'Ip\MeatUp\Mapping\OnIndexPage', 'attribute' => 'filter'],
         'OnIndexPageFilterParameters' => ['name' => 'Ip\MeatUp\Mapping\OnIndexPage', 'attribute' => 'filterParameters'],
+        'ManyToOneChoice' => ['name' => 'Ip\MeatUp\Mapping\ManyToOneChoice'],
+        'ManyToOneChoiceLabels' => ['name' => 'Ip\MeatUp\Mapping\ManyToOneChoice', 'attribute' => 'labels'],
 
         // Doctrine annotations
         'Id' => ['name' => 'Doctrine\ORM\Mapping\Id'],

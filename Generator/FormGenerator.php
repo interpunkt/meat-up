@@ -15,17 +15,14 @@ final class FormGenerator
         $fields = array();
         $imports = array();
 
-        foreach ($reflection->getProperties() as $property)
-        {
-            if ($reflection->hasId($property))
-            {
+        foreach ($reflection->getProperties() as $property) {
+            if ($reflection->hasId($property)) {
                 continue;
             }
 
             $type = $reflection->getType($property);
 
-            if ($type === false)
-            {
+            if ($type === false) {
                 continue;
             }
 
@@ -36,18 +33,19 @@ final class FormGenerator
             $field['required'] = $reflection->getRequired($property);
             $field['label'] = ucfirst($field['name']);
 
-            if ($field['required'] == "true")
-            {
+            if ($field['required'] == "true") {
                 $field['label'] .= ' *';
             }
 
-            if ($type === 'manyToOne')
-            {
+            if ($type === 'manyToOne') {
                 $field['class'] = $entityBundleNameSpace . '\Entity\\' .
                     $reflection->getManyToOneTargetEntity($property);
 
-                if ($reflection->hasManyToOneOrderBy($property))
-                {
+                if ($reflection->hasManyToOneChoice($property)) {
+                    $field['choiceLabels'] = $reflection->getManyToOneChoiceLabels($property);
+                }
+
+                if ($reflection->hasManyToOneOrderBy($property)) {
                     $field['orderByNames'] = $reflection->getManyToOneOrderByNames($property);
                     $field['orderByDirections'] = $reflection->getManyToOneOrderByDirections($property);
                 }
@@ -55,8 +53,7 @@ final class FormGenerator
 
             $import = FormImportUtil::getImport($field['type']);
 
-            if (!in_array($import, $imports))
-            {
+            if (!in_array($import, $imports)) {
                 $imports[] = $import;
             }
 
