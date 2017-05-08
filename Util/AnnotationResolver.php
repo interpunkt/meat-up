@@ -20,8 +20,8 @@ class AnnotationResolver
     private static $annotationsList = array(
         // MeatUp annotations
         'ManyToOneOrderBy' => ['name' => 'Ip\MeatUp\Mapping\ManyToOneOrderBy'],
-        'ManyToOneOrderByName' => ['name' => 'Ip\MeatUp\Mapping\ManyToOneOrderBy', 'attribute' => 'propertyName'],
-        'ManyToOneOrderByDirection' => ['name' => 'Ip\MeatUp\Mapping\ManyToOneOrderBy', 'attribute' => 'orderDirection'],
+        'ManyToOneOrderByNames' => ['name' => 'Ip\MeatUp\Mapping\ManyToOneOrderBy', 'attribute' => 'propertyNames'],
+        'ManyToOneOrderByDirections' => ['name' => 'Ip\MeatUp\Mapping\ManyToOneOrderBy', 'attribute' => 'orderDirections'],
         'OnIndexPage' => ['name' => 'Ip\MeatUp\Mapping\OnIndexPage'],
         'OnIndexPageLabel' => ['name' => 'Ip\MeatUp\Mapping\OnIndexPage', 'attribute' => 'label'],
         'OnIndexPageFilter' => ['name' => 'Ip\MeatUp\Mapping\OnIndexPage', 'attribute' => 'filter'],

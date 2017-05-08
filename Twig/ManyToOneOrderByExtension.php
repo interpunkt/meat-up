@@ -2,7 +2,7 @@
 
 namespace Ip\MeatUp\Twig;
 
-class ManyToOneOrderByExtension
+class ManyToOneOrderByExtension extends \Twig_Extension
 {
     public function getFilters()
     {

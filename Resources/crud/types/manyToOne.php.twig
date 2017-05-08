@@ -5,7 +5,7 @@
 {% if field["orderByName"] is defined and field["orderByDirection"] is defined %}
                 'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('e')
-                    ->orderBy('e.{{ field["orderByName"] }}', '{{ field["orderByDirection"] }}');
+                    {{ field["orderByNames"] | manyToOneOrderByFilter(field["orderByDirections"]) }}
                 }
 {% endif %}
             ))

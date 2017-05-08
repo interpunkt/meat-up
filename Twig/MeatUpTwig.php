@@ -18,6 +18,7 @@ class MeatUpTwig
         );
 
         $twigEnv->addExtension(new IndexFilterExtension());
+        $twigEnv->addExtension(new ManyToOneOrderByExtension());
 
         return $twigEnv;
     }
