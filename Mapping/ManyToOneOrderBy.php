@@ -11,14 +11,14 @@ use Doctrine\Common\Annotations\Annotation\Required;
 class ManyToOneOrderBy
 {
     /**
-     * @var string
+     * @var array
      * @Required
      */
-    public $propertyName;
+    public $propertyNames;
 
     /**
-     * @var string
+     * @var array
      * @Required
      */
-    public $orderDirection;
+    public $orderDirections;
 }
