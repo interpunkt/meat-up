@@ -24,7 +24,14 @@ class ManyToOneChoiceLabelsExtension extends \Twig_Extension
             return '\'' . $choiceLabels[0] . '\'';
         }
 
-        $labelExpression = 'function ($item) {' . PHP_EOL .'return';
+        $labelExpression = 'function ($item) {' . PHP_EOL;
+
+        // add white spaces for correct formatting
+        for ($i = 0; $i < 20; ++$i) {
+            $labelExpression .= ' ';
+        }
+
+        $labelExpression .= 'return';
 
         for ($i = 0; $i < $labelsLength; ++$i) {
             $labelExpression .= ' $item->get' . ucfirst($choiceLabels[$i]) .'()';
@@ -34,7 +41,14 @@ class ManyToOneChoiceLabelsExtension extends \Twig_Extension
             }
         }
 
-        $labelExpression .= ';' . PHP_EOL . '}';
+        $labelExpression .= ';' . PHP_EOL;
+
+        // add white spaces for correct formatting
+        for ($i = 0; $i < 16; ++$i) {
+            $labelExpression .= ' ';
+        }
+
+        $labelExpression .= '}';
 
         return $labelExpression;
     }
