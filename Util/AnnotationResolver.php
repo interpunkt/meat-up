@@ -35,6 +35,7 @@ class AnnotationResolver
         'Column' => ['name' => 'Doctrine\ORM\Mapping\Column'],
         'ColumnType' => ['name' => 'Doctrine\ORM\Mapping\Column', 'attribute' => 'type'],
         'ColumnNullable' => ['name' => 'Doctrine\ORM\Mapping\Column', 'attribute' => 'nullable'],
+        'ColumnScale' => ['name' => 'Doctrine\ORM\Mapping\Column', 'attribute' => 'scale'],
         'Id' => ['name' => 'Doctrine\ORM\Mapping\Id'],
         'ManyToOne' => ['name' => 'Doctrine\ORM\Mapping\ManyToOne'],
         'ManyToOneTargetEntity' => ['name' => 'Doctrine\ORM\Mapping\ManyToOne', 'attribute' => 'targetEntity']

@@ -53,6 +53,12 @@ final class FormGenerator
                     $field['orderByDirections'] = $reflection->getManyToOneOrderByDirections($property);
                 }
             }
+            elseif($type === 'number') {
+                $scale = $reflection->getColumnScale($property);
+                if ($scale !== false) {
+                    $field['scale'] = $scale;
+                }
+            }
 
             $import = FormImportUtil::getImport($field['type']);
 
