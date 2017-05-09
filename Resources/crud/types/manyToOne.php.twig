@@ -1,7 +1,9 @@
             ->add('{{ field["name"] }}', EntityType::class, array(
                 'label' => '{{ field["label"] }}',
                 'class'=> '{{ field["class"] }}',
+{% if field["choiceLabels"] is defined  %}
                 'choice_label' => {{ field["choiceLabels"] | manyToOneChoiceLabels }},
+{% endif %}
 {% if field["orderByNames"] is defined and field["orderByDirections"] is defined %}
                 'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('e')
