@@ -38,7 +38,13 @@ class ReflectionUtil
             return 'hidden';
         }
         elseif ($this->hasColumn($property)) {
-            return $this->getColumnType($property);
+            $columnType = $this->getColumnType($property);
+
+            if ($columnType == 'decimal' || $columnType == 'float') {
+                return 'number';
+            }
+
+            return $columnType;
         }
         elseif ($this->hasManyToOne($property)) {
             return 'manyToOne';

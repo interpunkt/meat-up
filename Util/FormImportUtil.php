@@ -11,6 +11,7 @@ final class FormImportUtil
         "text" => "use Symfony\\Component\\Form\\Extension\\Core\\Type\\TextareaType;",
         "integer" => "use Symfony\\Component\\Form\\Extension\\Core\\Type\\IntegerType;",
         "hidden" => "use Symfony\\Component\\Form\\Extension\\Core\\Type\\HiddenType;",
+        "number" => "use Symfony\\Component\\Form\\Extension\\Core\\Type\\NumberType;",
         "manyToOne" => "use Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType;" . PHP_EOL .
                 "use Doctrine\\ORM\\EntityRepository;",
     );
