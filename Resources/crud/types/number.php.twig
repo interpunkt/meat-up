@@ -1,6 +1,6 @@
             ->add('{{ field["name"] }}', NumberType::class, array(
                 'label' => '{{ field["label"] }}',
-{% if field["scale"] id defined %}
+{% if field["scale"] is defined %}
                 'scale' =>   {{ field["scale"] }}
 {% endif %}
                 'required' => {{ field["required"] }}
