@@ -34,6 +34,10 @@ class ManyToOneOrderByExtension extends \Twig_Extension
                 $orderByExpression .= '->orderBy(\'e.' . $sortArray[$i] . '\', \'' . $orderArray[$i] . '\')';
             }
             else {
+                // add white spaces for correct indentation
+                for ($i = 0; $i < 20; ++$i) {
+                    $orderByExpression .= ' ';
+                }
                 $orderByExpression .= '->addOrderBy(\'e.' . $sortArray[$i] . '\', \'' . $orderArray[$i] . '\')';
             }
 

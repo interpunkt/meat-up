@@ -26,7 +26,7 @@ class ManyToOneChoiceLabelsExtension extends \Twig_Extension
 
         $labelExpression = 'function ($item) {' . PHP_EOL;
 
-        // add white spaces for correct formatting
+        // add white spaces for correct indentation
         for ($i = 0; $i < 20; ++$i) {
             $labelExpression .= ' ';
         }
@@ -43,7 +43,7 @@ class ManyToOneChoiceLabelsExtension extends \Twig_Extension
 
         $labelExpression .= ';' . PHP_EOL;
 
-        // add white spaces for correct formatting
+        // add white spaces for correct indentation
         for ($i = 0; $i < 16; ++$i) {
             $labelExpression .= ' ';
         }
