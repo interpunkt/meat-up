@@ -7,12 +7,6 @@ use ReflectionClass;
 
 class ReflectionUtil
 {
-    /**
-     * Doctrine annotations
-     */
-    const DOCTRINE_COLUMN_ANNOTATION = 'Doctrine\ORM\Mapping\Column';
-    const DOCTRINE_MANY_TO_ONE_ANNOTATION = 'Doctrine\ORM\Mapping\ManyToOne';
-
     private $annotationReader;
     private $reflectedClass;
 
@@ -40,16 +34,13 @@ class ReflectionUtil
 
     public function getType($property)
     {
-        if ($this->hasAnnotation($property, self::DOCTRINE_COLUMN_ANNOTATION))
-        {
-            return $this->getAnnotationAttribute(
-                $property,
-                self::DOCTRINE_COLUMN_ANNOTATION,
-                'type'
-            );
+        if ($this->hasHidden($property)) {
+            return 'hidden';
         }
-        elseif ($this->hasAnnotation($property, self::DOCTRINE_MANY_TO_ONE_ANNOTATION))
-        {
+        elseif ($this->hasColumn($property)) {
+            return $this->getColumnType($property);
+        }
+        elseif ($this->hasManyToOne($property)) {
             return 'manyToOne';
         }
 
@@ -63,11 +54,7 @@ class ReflectionUtil
 
     public function getRequired($property)
     {
-        $nullable = $this->getAnnotationAttribute(
-            $property,
-            self::DOCTRINE_COLUMN_ANNOTATION,
-            'nullable'
-        );
+        $nullable = $this->getColumnNullable($property);
 
         return $nullable !== false ? 'false' : 'true';
     }
@@ -77,8 +64,7 @@ class ReflectionUtil
         $annotation = $this->annotationReader
             ->getPropertyAnnotation($property, $annotationName);
 
-        if (is_null($annotation) || !array_key_exists($attributeName, $annotation))
-        {
+        if (is_null($annotation) || !array_key_exists($attributeName, $annotation)) {
             return false;
         }
 
@@ -106,8 +92,7 @@ class ReflectionUtil
      */
     public function __call($method, $arguments)
     {
-        if (count($arguments) != 1)
-        {
+        if (count($arguments) != 1) {
             throw new \BadMethodCallException(
                 'Method has has to be called with exactly one parameter'
             );
@@ -115,13 +100,11 @@ class ReflectionUtil
 
         $property = $arguments[0];
 
-        if (strpos($method, 'get') === 0)
-        {
+        if (strpos($method, 'get') === 0) {
             return $this->resolveGetCall(substr($method, 3), $property);
         }
 
-        if (strpos($method, 'has') === 0)
-        {
+        if (strpos($method, 'has') === 0) {
             return $this->resolveHasCall(substr($method, 3), $property);
         }
 
@@ -144,15 +127,13 @@ class ReflectionUtil
     {
         $resolvedAnnotation = AnnotationResolver::resolve($key);
 
-        if ($resolvedAnnotation === false)
-        {
+        if ($resolvedAnnotation === false) {
             throw new \BadMethodCallException(
                 'Method has' . $key . '. is not implemented in AnnotationResolver'
             );
         }
 
         return $this->hasAnnotation($property, $resolvedAnnotation['name']);
-
     }
 
     /**
@@ -169,8 +150,7 @@ class ReflectionUtil
     {
         $resolvedAnnotation = AnnotationResolver::resolve($key);
 
-        if ($resolvedAnnotation === false)
-        {
+        if ($resolvedAnnotation === false) {
             throw new \BadMethodCallException(
                 'Method has' . $key . '. is not implemented in AnnotationResolver'
             );

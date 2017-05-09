@@ -31,7 +31,11 @@ class AnnotationResolver
         'Ignore' => ['name' => 'Ip\MeatUp\Mapping\Ignore'],
 
         // Doctrine annotations
+        'Column' => ['name' => 'Doctrine\ORM\Mapping\Column'],
+        'ColumnType' => ['name' => 'Doctrine\ORM\Mapping\Column', 'attribute' => 'type'],
+        'ColumnNullable' => ['name' => 'Doctrine\ORM\Mapping\Column', 'attribute' => 'nullable'],
         'Id' => ['name' => 'Doctrine\ORM\Mapping\Id'],
+        'ManyToOne' => ['name' => 'Doctrine\ORM\Mapping\ManyToOne'],
         'ManyToOneTargetEntity' => ['name' => 'Doctrine\ORM\Mapping\ManyToOne', 'attribute' => 'targetEntity']
     );
 
