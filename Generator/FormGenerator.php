@@ -15,8 +15,11 @@ final class FormGenerator
         $fields = array();
         $imports = array();
 
-        foreach ($reflection->getProperties() as $property) {
-            if ($reflection->hasId($property)) {
+
+        foreach ($reflection->getProperties() as $property)
+        {
+            if ($reflection->hasId($property) || $reflection->hasIgnore($property))
+            {
                 continue;
             }
 

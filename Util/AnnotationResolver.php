@@ -28,6 +28,7 @@ class AnnotationResolver
         'OnIndexPageFilterParameters' => ['name' => 'Ip\MeatUp\Mapping\OnIndexPage', 'attribute' => 'filterParameters'],
         'ManyToOneChoice' => ['name' => 'Ip\MeatUp\Mapping\ManyToOneChoice'],
         'ManyToOneChoiceLabels' => ['name' => 'Ip\MeatUp\Mapping\ManyToOneChoice', 'attribute' => 'labels'],
+        'Ignore' => ['name' => 'Ip\MeatUp\Mapping\Ignore'],
 
         // Doctrine annotations
         'Id' => ['name' => 'Doctrine\ORM\Mapping\Id'],
