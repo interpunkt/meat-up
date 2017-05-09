@@ -29,6 +29,7 @@ class AnnotationResolver
         'ManyToOneChoice' => ['name' => 'Ip\MeatUp\Mapping\ManyToOneChoice'],
         'ManyToOneChoiceLabels' => ['name' => 'Ip\MeatUp\Mapping\ManyToOneChoice', 'attribute' => 'labels'],
         'Ignore' => ['name' => 'Ip\MeatUp\Mapping\Ignore'],
+        'Hidden' => ['name' => 'Ip\MeatUp\Mapping\Hidden'],
 
         // Doctrine annotations
         'Column' => ['name' => 'Doctrine\ORM\Mapping\Column'],
