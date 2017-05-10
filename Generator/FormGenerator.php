@@ -3,27 +3,27 @@
 namespace Ip\MeatUp\Generator;
 
 use Ip\MeatUp\Util\FormImportUtil;
-use Ip\MeatUp\Util\ReflectionUtil;
+use Ip\MeatUp\Util\AnnotationUtil;
 use Ip\MeatUp\Twig\MeatUpTwig;
 
 final class FormGenerator
 {
-    public static function generate(ReflectionUtil $reflection, $meatUpDir, $entityBundleNameSpace)
+    public static function generate(AnnotationUtil $annotation, $meatUpDir, $entityBundleNameSpace)
     {
-        $entityClassName = $reflection->getClassShortName();
+        $entityClassName = $annotation->getClassShortName();
 
         $fields = array();
         $imports = array();
 
 
-        foreach ($reflection->getProperties() as $property)
+        foreach ($annotation->getProperties() as $property)
         {
-            if ($reflection->hasId($property) || $reflection->hasIgnore($property))
+            if ($annotation->hasId($property) || $annotation->hasIgnore($property))
             {
                 continue;
             }
 
-            $type = $reflection->getType($property);
+            $type = $annotation->getType($property);
 
             if ($type === false) {
                 continue;
@@ -32,8 +32,8 @@ final class FormGenerator
             $field = array();
 
             $field['type'] = $type;
-            $field['name'] = $reflection->getName($property);
-            $field['required'] = $reflection->getRequired($property);
+            $field['name'] = $annotation->getName($property);
+            $field['required'] = $annotation->getRequired($property);
             $field['label'] = ucfirst($field['name']);
 
             if ($field['required'] == "true") {
@@ -42,25 +42,25 @@ final class FormGenerator
 
             if ($type == 'manyToOne') {
                 $field['class'] = $entityBundleNameSpace . '\Entity\\' .
-                    $reflection->getManyToOneTargetEntity($property);
+                    $annotation->getManyToOneTargetEntity($property);
 
-                if ($reflection->hasManyToOneChoice($property)) {
-                    $field['choiceLabels'] = $reflection->getManyToOneChoiceLabels($property);
+                if ($annotation->hasManyToOneChoice($property)) {
+                    $field['choiceLabels'] = $annotation->getManyToOneChoiceLabels($property);
                 }
 
-                if ($reflection->hasManyToOneOrderBy($property)) {
-                    $field['orderByNames'] = $reflection->getManyToOneOrderByNames($property);
-                    $field['orderByDirections'] = $reflection->getManyToOneOrderByDirections($property);
+                if ($annotation->hasManyToOneOrderBy($property)) {
+                    $field['orderByNames'] = $annotation->getManyToOneOrderByNames($property);
+                    $field['orderByDirections'] = $annotation->getManyToOneOrderByDirections($property);
                 }
             }
             elseif($type == 'number') {
-                $scale = $reflection->getColumnScale($property);
+                $scale = $annotation->getColumnScale($property);
                 if ($scale !== false) {
                     $field['scale'] = $scale;
                 }
             }
             elseif ($type == 'ckeditor') {
-                $config = $reflection->getCKEditorConfig($property);
+                $config = $annotation->getCKEditorConfig($property);
                 if (!empty($config)) {
                     $field['config'] = $config;
                 }

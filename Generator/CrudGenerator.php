@@ -3,7 +3,7 @@
 namespace Ip\MeatUp\Generator;
 
 use Ip\MeatUp\Util\FileUtil;
-use Ip\MeatUp\Util\ReflectionUtil;
+use Ip\MeatUp\Util\AnnotationUtil;
 use Symfony\Component\Console\Output\OutputInterface;
 
 final class CrudGenerator
@@ -20,7 +20,7 @@ final class CrudGenerator
     public function __construct($className, $appDir, $meatUpDir, $entityBundleNameSpace, $bundleRootDir,
                                 $entityBundleName, OutputInterface $output)
     {
-        $this->reflection = new ReflectionUtil($className);
+        $this->reflection = new AnnotationUtil($className);
         $this->entityClassName = $this->reflection->getClassShortName();
         $this->appDir = $appDir;
         $this->meatUpDir = $meatUpDir;

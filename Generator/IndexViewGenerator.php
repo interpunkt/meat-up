@@ -2,32 +2,32 @@
 
 namespace Ip\MeatUp\Generator;
 
-use Ip\MeatUp\Util\ReflectionUtil;
+use Ip\MeatUp\Util\AnnotationUtil;
 use Ip\MeatUp\Twig\MeatUpTwig;
 
 final class IndexViewGenerator
 {
-    public static function generate(ReflectionUtil $reflection, $meatUpDir, $entityClassName)
+    public static function generate(AnnotationUtil $annotation, $meatUpDir, $entityClassName)
     {
         $indexProperties = array();
         $indexPropertyLabels = array();
         $indexPropertyFilters = array();
         $indexPropertyFilterArguments = array();
 
-        foreach ($reflection->getProperties() as $property)
+        foreach ($annotation->getProperties() as $property)
         {
-            if ($reflection->hasOnIndexPage($property))
+            if ($annotation->hasOnIndexPage($property))
             {
                 $propertyName = $property->getName();
                 $indexProperties[] = $propertyName;
 
-                $indexPropertyLabel = $reflection->getOnIndexPageLabel($property);
+                $indexPropertyLabel = $annotation->getOnIndexPageLabel($property);
                 $indexPropertyLabels[] = !empty($indexPropertyLabel) ? $indexPropertyLabel : ucfirst($propertyName);
 
-                $indexPropertyFilter = $reflection->getOnIndexPageFilter($property);
+                $indexPropertyFilter = $annotation->getOnIndexPageFilter($property);
                 $indexPropertyFilters[]  = !empty($indexPropertyFilter) ? $indexPropertyFilter : '';
 
-                $indexPropertyFilterArgument = $reflection->getOnIndexPageFilterParameters($property);
+                $indexPropertyFilterArgument = $annotation->getOnIndexPageFilterParameters($property);
                 $indexPropertyFilterArguments[]  = !empty($indexPropertyFilterArgument) ? $indexPropertyFilterArgument : '';
             }
         }
