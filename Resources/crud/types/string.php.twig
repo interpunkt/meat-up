@@ -1,5 +1,4 @@
-            ->add('{{ field["name"] }}', CheckboxType::class, array(
+            ->add('{{ field["name"] }}', TextType::class, array(
                 'label' => '{{ field["label"] }}',
-                {# check box type needs always to be not mandatory #}
-                'required' => false
+                'required' => {{ field["required"] }}
             ))
