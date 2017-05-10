@@ -66,6 +66,15 @@ class ReflectionUtil
     {
         $nullable = $this->getColumnNullable($property);
 
+        $type = $this->getType($property);
+
+        /**
+         * boolean is never mandatory, otherwise it couldn't be left unchecked
+         */
+        if ($type == 'boolean') {
+            return 'false';
+        }
+
         return $nullable !== false ? 'false' : 'true';
     }
 
