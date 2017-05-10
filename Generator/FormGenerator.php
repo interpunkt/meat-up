@@ -61,7 +61,7 @@ final class FormGenerator
             }
             elseif ($type == 'ckeditor') {
                 $config = $reflection->getCKEditorConfig($property);
-                if ($config !== false) {
+                if (!empty($config)) {
                     $field['config'] = $config;
                 }
             }

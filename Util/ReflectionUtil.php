@@ -74,7 +74,7 @@ class ReflectionUtil
         $annotation = $this->annotationReader
             ->getPropertyAnnotation($property, $annotationName);
 
-        if (is_null($annotation) || empty($annotation->$attributeName) || !array_key_exists($attributeName, $annotation)) {
+        if (is_null($annotation) || !array_key_exists($attributeName, $annotation)) {
             return false;
         }
 
