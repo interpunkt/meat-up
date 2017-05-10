@@ -30,6 +30,8 @@ class AnnotationResolver
         'ManyToOneChoiceLabels' => ['name' => 'Ip\MeatUp\Mapping\ManyToOneChoice', 'attribute' => 'labels'],
         'Ignore' => ['name' => 'Ip\MeatUp\Mapping\Ignore'],
         'Hidden' => ['name' => 'Ip\MeatUp\Mapping\Hidden'],
+        'CKEditor' => ['name' => 'Ip\MeatUp\Mapping\CKEditor'],
+        'CKEditorConfig' => ['name' => 'Ip\MeatUp\Mapping\ManyToOneChoice', 'attribute' => 'config'],
 
         // Doctrine annotations
         'Column' => ['name' => 'Doctrine\ORM\Mapping\Column'],

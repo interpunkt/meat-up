@@ -40,7 +40,7 @@ final class FormGenerator
                 $field['label'] .= ' *';
             }
 
-            if ($type === 'manyToOne') {
+            if ($type == 'manyToOne') {
                 $field['class'] = $entityBundleNameSpace . '\Entity\\' .
                     $reflection->getManyToOneTargetEntity($property);
 
@@ -53,11 +53,14 @@ final class FormGenerator
                     $field['orderByDirections'] = $reflection->getManyToOneOrderByDirections($property);
                 }
             }
-            elseif($type === 'number') {
+            elseif($type == 'number') {
                 $scale = $reflection->getColumnScale($property);
                 if ($scale !== false) {
                     $field['scale'] = $scale;
                 }
+            }
+            elseif ($type == 'ckeditor') {
+                $field['config'] = $reflection->getCKEditorConfig($property);
             }
 
             $import = FormImportUtil::getImport($field['type']);

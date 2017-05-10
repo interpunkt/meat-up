@@ -44,6 +44,10 @@ class ReflectionUtil
                 return 'number';
             }
 
+            if ($columnType == 'text' && $this->hasCKEditor($property)) {
+                return 'ckeditor';
+            }
+
             return $columnType;
         }
         elseif ($this->hasManyToOne($property)) {
