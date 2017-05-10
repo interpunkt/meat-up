@@ -10,7 +10,6 @@ class CKEditor
 {
     /**
      * @var string
-     * @Required
      */
     public $config;
 }

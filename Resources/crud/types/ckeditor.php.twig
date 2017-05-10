@@ -1,7 +1,9 @@
             ->add('{{ field["name"] }}', CKEditorType::class, array(
                 'label' => '{{ field["label"] }}',
                 'required' => {{ field["required"] }},
+{% if field["config"] is defined %}
                 'config_name' => '{{ field["config"] }}',
+{% endif %}
                 'attr' => array(
                     'rows' => 8
                 )

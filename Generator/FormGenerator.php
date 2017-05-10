@@ -60,7 +60,10 @@ final class FormGenerator
                 }
             }
             elseif ($type == 'ckeditor') {
-                $field['config'] = $reflection->getCKEditorConfig($property);
+                $config = $reflection->getCKEditorConfig($property);
+                if ($config !== false) {
+                    $field['config'] = $config;
+                }
             }
 
             $import = FormImportUtil::getImport($field['type']);
