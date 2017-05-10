@@ -22,13 +22,13 @@ final class IndexViewGenerator
                 $indexProperties[] = $propertyName;
 
                 $indexPropertyLabel = $reflection->getOnIndexPageLabel($property);
-                $indexPropertyLabels[] = !empty($indexPropertyLabel) ? $indexPropertyLabel : ucfirst($propertyName);
+                $indexPropertyLabels[] = !$indexPropertyLabel ? $indexPropertyLabel : ucfirst($propertyName);
 
                 $indexPropertyFilter = $reflection->getOnIndexPageFilter($property);
-                $indexPropertyFilters[]  = !empty($indexPropertyFilter) ? $indexPropertyFilter : '';
+                $indexPropertyFilters[]  = !$indexPropertyFilter ? $indexPropertyFilter : '';
 
                 $indexPropertyFilterArgument = $reflection->getOnIndexPageFilterParameters($property);
-                $indexPropertyFilterArguments[]  = !empty($indexPropertyFilterArgument) ? $indexPropertyFilterArgument : '';
+                $indexPropertyFilterArguments[]  = !$indexPropertyFilterArgument ? $indexPropertyFilterArgument : '';
             }
         }
 
