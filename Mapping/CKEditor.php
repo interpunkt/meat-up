@@ -9,7 +9,7 @@ namespace Ip\MeatUp\Mapping;
 class CKEditor
 {
     /**
-     * @var array
+     * @var string
      * @Required
      */
     public $config;
