@@ -13,6 +13,7 @@ final class FormImportUtil
         "hidden" => "use Symfony\\Component\\Form\\Extension\\Core\\Type\\HiddenType;",
         "number" => "use Symfony\\Component\\Form\\Extension\\Core\\Type\\NumberType;",
         "ckeditor" => "use Ivory\CKEditorBundle\Form\Type\CKEditorType;",
+        "boolean" => "use Symfony\\Component\\Form\\Extension\\Core\\Type\\CheckboxType;",
         "manyToOne" => "use Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType;" . PHP_EOL .
                 "use Doctrine\\ORM\\EntityRepository;",
     );
