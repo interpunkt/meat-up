@@ -30,7 +30,10 @@ final class CrudGenerator
         $this->bundleRootDir = $bundleRootDir;
         $this->entityBundleName = $entityBundleName;
         $this->output = $output;
-        $this->fileUtil = new FileUtil(new LockFileUtil($appDir . DIRECTORY_SEPARATOR . '..'));
+        $this->fileUtil = new FileUtil(
+            new LockFileUtil($appDir . DIRECTORY_SEPARATOR . '..'),
+            $output
+        );
     }
 
     public function generate()

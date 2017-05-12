@@ -2,13 +2,17 @@
 
 namespace Ip\MeatUp\Util;
 
+use Symfony\Component\Console\Output\OutputInterface;
+
 class FileUtil
 {
     private $lockFile;
+    private $output;
 
-    public function __construct(LockFileUtil $lockFile)
+    public function __construct(LockFileUtil $lockFile, OutputInterface $output)
     {
         $this->lockFile = $lockFile;
+        $this->output = $output;
     }
 
     public function writeToFile($content, $filePath)
