@@ -26,7 +26,7 @@ final class LockFileUtil
          * if no lock file exists, it is not safe to overwrite the target file
          */
         if (!file_exists($this->lockFile)) {
-            $this->errorMsg = 'The target file exists, but no lock file.';
+            $this->errorMsg = 'The target file exists, but not the lock file.';
             return false;
         }
 
@@ -90,6 +90,6 @@ final class LockFileUtil
 
     public function getErrorMsg()
     {
-        return $this->errorMsg.' It is safe to overwrite it.';
+        return $this->errorMsg.' It is not safe to overwrite it.';
     }
 }

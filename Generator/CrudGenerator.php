@@ -17,7 +17,7 @@ final class CrudGenerator
     private $entityBundleName;
     private $entityBundleNameSpace;
     private $entityClassName;
-    private $lockFile;
+    private $fileUtil;
 
     public function __construct($className, $appDir, $meatUpDir, $entityBundleNameSpace, $bundleRootDir,
                                 $entityBundleName, OutputInterface $output)
@@ -30,7 +30,7 @@ final class CrudGenerator
         $this->bundleRootDir = $bundleRootDir;
         $this->entityBundleName = $entityBundleName;
         $this->output = $output;
-        $this->lockFile = new LockFileUtil($appDir . DIRECTORY_SEPARATOR . '..');
+        $this->fileUtil = new FileUtil(new LockFileUtil($appDir . DIRECTORY_SEPARATOR . '..'));
     }
 
     public function generate()
@@ -66,15 +66,9 @@ final class CrudGenerator
             DIRECTORY_SEPARATOR . 'Type' .DIRECTORY_SEPARATOR;
 
         $formTypeFile = $formTypeDir . $this->entityClassName . 'Type.php';
+        
 
-        if (!$this->lockFile->isSafeToWrite($formTypeFile)) {
-            $this->output->writeln(
-                'Can\'t write to form type fileFile '.$formTypeFile.': '.$this->lockFile->getErrorMsg()
-            );
-            return false;
-        }
-
-        if (FileUtil::writeToFile($formType, $formTypeFile) === false) {
+        if ($this->fileUtil->writeToFile($formType, $formTypeFile) === false) {
             $this->output->writeln('Can\'t write to file ' . $formTypeFile);
             return false;
         }
@@ -96,7 +90,7 @@ final class CrudGenerator
         $controllerFile = $this->bundleRootDir . DIRECTORY_SEPARATOR
             . 'Controller' . DIRECTORY_SEPARATOR . $this->entityClassName . 'Controller.php';
 
-        if (FileUtil::writeToFile($controller, $controllerFile) === false) {
+        if ($this->fileUtil->writeToFile($controller, $controllerFile) === false) {
             $this->output->writeln('Can\'t write to file ' . $controllerFile);
             return false;
         }
@@ -110,7 +104,7 @@ final class CrudGenerator
         $viewDir = $this->appDir . DIRECTORY_SEPARATOR . 'Resources' . DIRECTORY_SEPARATOR . 'views'
             . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . $this->entityClassName;
 
-        if (!FileUtil::createDirectory($viewDir)) {
+        if (!$this->fileUtil->createDirectory($viewDir)) {
             $this->output->writeln('Can\'t create directory ' . $viewDir);
             return false;
         }
@@ -144,7 +138,7 @@ final class CrudGenerator
 
         $indexViewFile = $viewDir . DIRECTORY_SEPARATOR . 'index.html.twig';
 
-        if (FileUtil::writeToFile($indexView, $indexViewFile) === false) {
+        if ($this->fileUtil->writeToFile($indexView, $indexViewFile) === false) {
             $this->output->writeln('Can\'t write to file ' . $indexViewFile);
             return false;
         }
@@ -163,7 +157,7 @@ final class CrudGenerator
 
         $insertViewFile = $viewDir . DIRECTORY_SEPARATOR . 'insert.html.twig';
 
-        if (FileUtil::writeToFile($indexView, $insertViewFile) === false) {
+        if ($this->fileUtil->writeToFile($indexView, $insertViewFile) === false) {
             $this->output->writeln('Can\'t write to file ' . $insertViewFile);
             return false;
         }
@@ -182,7 +176,7 @@ final class CrudGenerator
 
         $updateViewFile = $viewDir . DIRECTORY_SEPARATOR . 'update.html.twig';
 
-        if (FileUtil::writeToFile($updateView, $updateViewFile) === false) {
+        if ($this->fileUtil->writeToFile($updateView, $updateViewFile) === false) {
             $this->output->writeln('Can\'t write to file ' . $updateViewFile);
             return false;
         }
