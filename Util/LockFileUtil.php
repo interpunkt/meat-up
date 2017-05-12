@@ -31,7 +31,7 @@ final class LockFileUtil
         }
 
         $lockFileJson = file_get_contents($this->lockFile);
-        $lockFileArray = json_decode($lockFileJson);
+        $lockFileArray = json_decode($lockFileJson, true);
 
         /**
          * if the file is not in the lock file, , it is not safe to overwrite the target file
@@ -68,7 +68,7 @@ final class LockFileUtil
                 throw new \RuntimeException('Can\'t read from lock file ' . $this->lockFile);
             }
 
-            $lockFileArray = json_decode($lockFileJson);
+            $lockFileArray = json_decode($lockFileJson, true);
         }
 
         $sha1File = sha1_file($fileName);
@@ -81,7 +81,10 @@ final class LockFileUtil
             throw new \RuntimeException('Can\'t encode lock file array to json');
         }
 
-        $writeResult = file_put_contents($fileName, $lockFileString);
+        $writeResult = file_put_contents(
+            $this->lockFile,
+            $lockFileString
+        );
 
         if (false === $writeResult) {
             throw new \RuntimeException('Can\'t write to lock file');
