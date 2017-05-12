@@ -4,6 +4,7 @@ namespace Ip\MeatUp\Generator;
 
 use Ip\MeatUp\Util\FileUtil;
 use Ip\MeatUp\Util\AnnotationUtil;
+use Ip\MeatUp\Util\LockFileUtil;
 use Symfony\Component\Console\Output\OutputInterface;
 
 final class CrudGenerator
@@ -16,6 +17,7 @@ final class CrudGenerator
     private $entityBundleName;
     private $entityBundleNameSpace;
     private $entityClassName;
+    private $lockFile;
 
     public function __construct($className, $appDir, $meatUpDir, $entityBundleNameSpace, $bundleRootDir,
                                 $entityBundleName, OutputInterface $output)
@@ -28,24 +30,22 @@ final class CrudGenerator
         $this->bundleRootDir = $bundleRootDir;
         $this->entityBundleName = $entityBundleName;
         $this->output = $output;
+        $this->lockFile = new LockFileUtil($appDir . DIRECTORY_SEPARATOR . '..');
     }
 
     public function generate()
     {
-        if (!$this->generateFormTypeFile())
-        {
+        if (!$this->generateFormTypeFile()) {
             $this->output->writeln('Generating FormType file not successful');
             return false;
         }
 
-        if (!$this->generateControllerFile())
-        {
+        if (!$this->generateControllerFile()) {
             $this->output->writeln('Generating Controller file not successful');
             return false;
         }
 
-        if (!$this->generateViewFiles())
-        {
+        if (!$this->generateViewFiles()) {
             $this->output->writeln('Generating view files not successful');
             return false;
         }
@@ -67,8 +67,14 @@ final class CrudGenerator
 
         $formTypeFile = $formTypeDir . $this->entityClassName . 'Type.php';
 
-        if (FileUtil::writeToFile($formType, $formTypeFile) === false)
-        {
+        if (!$this->lockFile->isSafeToWrite($formTypeFile)) {
+            $this->output->writeln(
+                'Can\'t write to form type fileFile '.$formTypeFile.': '.$this->lockFile->getErrorMsg()
+            );
+            return false;
+        }
+
+        if (FileUtil::writeToFile($formType, $formTypeFile) === false) {
             $this->output->writeln('Can\'t write to file ' . $formTypeFile);
             return false;
         }
@@ -90,8 +96,7 @@ final class CrudGenerator
         $controllerFile = $this->bundleRootDir . DIRECTORY_SEPARATOR
             . 'Controller' . DIRECTORY_SEPARATOR . $this->entityClassName . 'Controller.php';
 
-        if (FileUtil::writeToFile($controller, $controllerFile) === false)
-        {
+        if (FileUtil::writeToFile($controller, $controllerFile) === false) {
             $this->output->writeln('Can\'t write to file ' . $controllerFile);
             return false;
         }
@@ -110,20 +115,17 @@ final class CrudGenerator
             return false;
         }
 
-        if (!$this->generateIndexViewFile($viewDir))
-        {
+        if (!$this->generateIndexViewFile($viewDir)) {
             $this->output->writeln('Generating index view file not successful');
             return false;
         }
 
-        if (!$this->generateInsertViewFile($viewDir))
-        {
+        if (!$this->generateInsertViewFile($viewDir)) {
             $this->output->writeln('Generating index view file not successful');
             return false;
         }
 
-        if (!$this->generateUpdateViewFile($viewDir))
-        {
+        if (!$this->generateUpdateViewFile($viewDir)) {
             $this->output->writeln('Generating index view file not successful');
             return false;
         }
