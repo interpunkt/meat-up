@@ -31,7 +31,7 @@ final class CrudGenerator
         $this->entityBundleName = $entityBundleName;
         $this->output = $output;
         $this->fileUtil = new FileUtil(
-            new LockFileUtil($appDir . DIRECTORY_SEPARATOR . '..'),
+            new LockFileUtil(dirname($appDir)),
             $output
         );
     }
