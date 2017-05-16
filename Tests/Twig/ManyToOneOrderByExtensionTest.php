@@ -70,7 +70,7 @@ final class ManyToOneOrderByExtensionTest extends TestCase
     public function testWithTwoParameter()
     {
         $this->assertEquals(
-            '->orderBy(\'e.name\', \'DESC\')' . PHP_EOL . '->addOrderBy(\'e.title\', \'ASC\');',
+            '->orderBy(\'e.name\', \'DESC\')' . PHP_EOL . '                    ->addOrderBy(\'e.title\', \'ASC\');',
             $this->twigExtension->manyToOneOrderByFilter(['name' ,'title'], ['DESC', 'ASC']),
             'manyToOneOrderByFilter returned the wrong expression with two parameters'
         );

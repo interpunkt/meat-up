@@ -56,8 +56,8 @@ final class ManyToOneChoiceLabelsExtensionTest extends TestCase
     {
         $this->assertEquals(
             'function ($item) {' . PHP_EOL .
-                        'return $item->getName() . \' \' . $item->getName2();' . PHP_EOL .
-                    '}',
+                        '                    return $item->getName() . \' \' . $item->getName2();' . PHP_EOL .
+                    '                }',
             $this->twigExtension->manyToOneChoiceLabelsFilter(['name', 'name2']),
             'manyToOneChoiceLabelsFilter returned the wrong expression with one parameter'
         );

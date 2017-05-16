@@ -2,14 +2,18 @@
 
 namespace Ip\MeatUp\Util;
 
+use Symfony\Component\Filesystem\Filesystem;
+
 final class LockFileUtil
 {
     private $lockFile;
     private $errorMsg;
+    private $rootDir;
 
     public function __construct($rootDir)
     {
-        $this->lockFile = $rootDir . DIRECTORY_SEPARATOR . 'meatup.lock';
+        $this->rootDir = $rootDir;
+        $this->lockFile = $this->rootDir . DIRECTORY_SEPARATOR . 'meatup.lock';
         $this->errorMsg = '';
     }
 
@@ -33,15 +37,17 @@ final class LockFileUtil
         $lockFileJson = file_get_contents($this->lockFile);
         $lockFileArray = json_decode($lockFileJson, true);
 
+        $relativeFileName = $this->getRelativePath($fileName);
+
         /**
          * if the file is not in the lock file, , it is not safe to overwrite the target file
          */
-        if (key_exists($fileName, $lockFileArray)) {
+        if (!key_exists($relativeFileName, $lockFileArray)) {
             $this->errorMsg = 'The target file exists, but is not in the lock file.';
             return false;
         }
 
-        $sha1LockFile = $lockFileArray[$fileName];
+        $sha1LockFile = $lockFileArray[$relativeFileName];
 
         $sha1File = sha1_file($fileName);
 
@@ -73,7 +79,9 @@ final class LockFileUtil
 
         $sha1File = sha1_file($fileName);
 
-        $lockFileArray[$fileName] = $sha1File;
+        $relativeFileName = $this->getRelativePath($fileName);
+
+        $lockFileArray[$relativeFileName] = $sha1File;
 
         $lockFileString = json_encode($lockFileArray, JSON_PRETTY_PRINT);
 
@@ -94,5 +102,23 @@ final class LockFileUtil
     public function getErrorMsg()
     {
         return $this->errorMsg.' It is not safe to overwrite it.';
+    }
+
+    private function getRelativePath($fileName)
+    {
+        $fs = new Filesystem();
+        $relativeFileName = $fs->makePathRelative($fileName, $this->rootDir);
+
+        /**
+         * replace '\' with '/' for windows systems
+         */
+        $relativeFileName = str_replace('\\', '/', $relativeFileName);
+
+        /**
+         * remove trailing slashes
+         */
+        $relativeFileName = rtrim($relativeFileName, '/');
+
+        return $relativeFileName;
     }
 }
