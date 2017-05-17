@@ -9,6 +9,10 @@ class FileUtil
     private $lockFile;
     private $output;
 
+    /**
+     * @param LockFileUtil $lockFile
+     * @param OutputInterface $output
+     */
     public function __construct(LockFileUtil $lockFile, OutputInterface $output)
     {
         $this->lockFile = $lockFile;

@@ -8,23 +8,22 @@ use ReflectionClass;
 class AnnotationUtil
 {
     private $annotationReader;
-    private $reflectedClass;
+    private $reflectionClass;
 
-    public function __construct($className)
+    public function __construct(AnnotationReader $annotationReader, ReflectionClass $reflectionClass)
     {
-        // TODO use cached reader
-        $this->annotationReader = new AnnotationReader();
-        $this->reflectedClass = new ReflectionClass($className);
+        $this->annotationReader = $annotationReader;
+        $this->reflectionClass = $reflectionClass;
     }
 
     public function getClassShortName()
     {
-        return $this->reflectedClass->getShortName();
+        return $this->reflectionClass->getShortName();
     }
 
     public function getProperties()
     {
-        return $this->reflectedClass->getProperties();
+        return $this->reflectionClass->getProperties();
     }
 
     public function getPropertyAnnotations($property)

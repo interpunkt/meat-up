@@ -9,16 +9,30 @@ final class LockFileUtil
     private $lockFile;
     private $errorMsg;
     private $rootDir;
+    private $hasForce;
 
-    public function __construct($rootDir)
+    /**
+     * LockFileUtil constructor.
+     * @param string $rootDir
+     * @param bool $hasForce
+     */
+    public function __construct($rootDir, $hasForce)
     {
         $this->rootDir = $rootDir;
+        $this->hasForce = $hasForce;
         $this->lockFile = $this->rootDir . DIRECTORY_SEPARATOR . 'meatup.lock';
         $this->errorMsg = '';
     }
 
     public function isSafeToWrite($fileName)
     {
+        /**
+         * when force option is set, always allow writing to file
+         */
+        if ($this->hasForce) {
+            return true;
+        }
+
         /**
          * if the file doesn't exist yet, it can always be created
          */

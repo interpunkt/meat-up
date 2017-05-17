@@ -2,6 +2,11 @@
 
 namespace Ip\MeatUp\Generator;
 
+use Doctrine\Common\Annotations\AnnotationReader;
+use Ip\MeatUp\Util\AnnotationUtil;
+use Ip\MeatUp\Util\FileUtil;
+use Ip\MeatUp\Util\LockFileUtil;
+use ReflectionClass;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -10,6 +15,7 @@ final class CrudGeneratorBuilder
     private $className;
     private $container;
     private $output;
+    private $hasForce;
 
     // forbid use of constructor
     private function __construct() {}
@@ -48,6 +54,17 @@ final class CrudGeneratorBuilder
     public function setOutput(OutputInterface $output)
     {
         $this->output = $output;
+
+        return $this;
+    }
+
+    /**
+     * @param bool $hasForce
+     * @return CrudGeneratorBuilder
+     */
+    public function setHasForce($hasForce)
+    {
+        $this->hasForce = $hasForce;
 
         return $this;
     }
@@ -101,14 +118,31 @@ final class CrudGeneratorBuilder
             return false;
         }
 
+        // use the root directory of the project (one level up of app directory)
+        $lockFileUtil = new LockFileUtil(
+            dirname($appDir),
+            $this->hasForce
+        );
+
+        $fileUtil = new FileUtil(
+            $lockFileUtil,
+            $this->output
+        );
+
+        // TODO use cached reader
+        $annotationReader = new AnnotationReader();
+        $reflectedClass = new ReflectionClass($this->className);
+        $annotationUtil = new AnnotationUtil($annotationReader, $reflectedClass);
+
         return new CrudGenerator(
-            $this->className,
+            $annotationUtil,
             $appDir,
             $meatUpDir,
             $entityBundleNameSpace,
             $bundleRootDir,
             $entityBundleName,
-            $this->output
+            $this->output,
+            $fileUtil
         );
     }
 
@@ -117,6 +151,7 @@ final class CrudGeneratorBuilder
         $this->checkProperty($this->className, 'className');
         $this->checkProperty($this->container, 'container');
         $this->checkProperty($this->output, 'output');
+        $this->checkProperty($this->hasForce, 'hasForce');
     }
 
     private function checkProperty($property, $propertyName)

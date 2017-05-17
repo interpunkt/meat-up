@@ -21,11 +21,22 @@ class LockFileUtilTest extends \PHPUnit_Framework_TestCase
             ->setContent('test');
     }
 
+    public function testIsSafeToWriteWhenForce()
+    {
+        $lockFileUtil = new LockFileUtil(vfsStream::url('testDir'), true);
+
+        $this->assertTrue(
+            $lockFileUtil->isSafeToWrite('test.php'),
+            'LockFileUtil::isSafeToWrite should return true if force optioni set'
+        );
+    }
+
+
     public function testIsSafeToWriteFileDoesNotExists()
     {
         unlink(vfsStream::url('testDir/test.php'));
 
-        $lockFileUtil = new LockFileUtil(vfsStream::url('testDir'));
+        $lockFileUtil = new LockFileUtil(vfsStream::url('testDir'), false);
 
         $this->assertTrue(
             $lockFileUtil->isSafeToWrite('test.php'),
@@ -35,7 +46,7 @@ class LockFileUtilTest extends \PHPUnit_Framework_TestCase
 
     public function testIsSafeToWriteNoLockFile()
     {
-        $lockFileUtil = new LockFileUtil(vfsStream::url('testDir'));
+        $lockFileUtil = new LockFileUtil(vfsStream::url('testDir'), false);
 
         $this->assertFalse(
             $lockFileUtil->isSafeToWrite(vfsStream::url('testDir/test.php')),
@@ -49,7 +60,7 @@ class LockFileUtilTest extends \PHPUnit_Framework_TestCase
             ->at($this->root)
             ->setContent('{}');
 
-        $lockFileUtil = new LockFileUtil(vfsStream::url('testDir'));
+        $lockFileUtil = new LockFileUtil(vfsStream::url('testDir'), false);
 
         $this->assertFalse(
             $lockFileUtil->isSafeToWrite(vfsStream::url('testDir/test.php')),
@@ -63,7 +74,7 @@ class LockFileUtilTest extends \PHPUnit_Framework_TestCase
             ->at($this->root)
             ->setContent('{"test.php": "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3"}');
 
-        $lockFileUtil = new LockFileUtil(vfsStream::url('testDir'));
+        $lockFileUtil = new LockFileUtil(vfsStream::url('testDir'), false);
 
         $this->assertTrue(
             $lockFileUtil->isSafeToWrite(vfsStream::url('testDir/test.php')),
@@ -73,7 +84,7 @@ class LockFileUtilTest extends \PHPUnit_Framework_TestCase
 
     public function testAddToLockFileShouldCreateLockFile()
     {
-        $lockFileUtil = new LockFileUtil(vfsStream::url('testDir'));
+        $lockFileUtil = new LockFileUtil(vfsStream::url('testDir'), false);
 
         $lockFileUtil->addToLockFile(vfsStream::url('testDir/test.php'));
 
@@ -95,7 +106,7 @@ class LockFileUtilTest extends \PHPUnit_Framework_TestCase
             ->at($this->root)
             ->setContent('{"test.php": "1234"}');
 
-        $lockFileUtil = new LockFileUtil(vfsStream::url('testDir'));
+        $lockFileUtil = new LockFileUtil(vfsStream::url('testDir'), false);
 
         $lockFileUtil->addToLockFile(vfsStream::url('testDir/test.php'));
 

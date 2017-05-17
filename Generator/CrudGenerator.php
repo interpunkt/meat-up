@@ -4,12 +4,11 @@ namespace Ip\MeatUp\Generator;
 
 use Ip\MeatUp\Util\FileUtil;
 use Ip\MeatUp\Util\AnnotationUtil;
-use Ip\MeatUp\Util\LockFileUtil;
 use Symfony\Component\Console\Output\OutputInterface;
 
 final class CrudGenerator
 {
-    private $reflection;
+    private $annotationUtil;
     private $appDir;
     private $meatUpDir;
     private $bundleRootDir;
@@ -19,21 +18,27 @@ final class CrudGenerator
     private $entityClassName;
     private $fileUtil;
 
-    public function __construct($className, $appDir, $meatUpDir, $entityBundleNameSpace, $bundleRootDir,
-                                $entityBundleName, OutputInterface $output)
+    /**
+     * @param AnnotationUtil $annotationUtil
+     * @param string $appDir
+     * @param string $meatUpDir
+     * @param string $entityBundleNameSpace
+     * @param string $bundleRootDir
+     * @param string $entityBundleName
+     * @param OutputInterface $output
+     * @param FileUtil $fileUtil
+     */
+    public function __construct(AnnotationUtil $annotationUtil, $appDir, $meatUpDir, $entityBundleNameSpace, $bundleRootDir, $entityBundleName, OutputInterface $output, FileUtil $fileUtil)
     {
-        $this->reflection = new AnnotationUtil($className);
-        $this->entityClassName = $this->reflection->getClassShortName();
+        $this->annotationUtil = $annotationUtil;
+        $this->entityClassName = $this->annotationUtil->getClassShortName();
         $this->appDir = $appDir;
         $this->meatUpDir = $meatUpDir;
         $this->entityBundleNameSpace = $entityBundleNameSpace;
         $this->bundleRootDir = $bundleRootDir;
         $this->entityBundleName = $entityBundleName;
         $this->output = $output;
-        $this->fileUtil = new FileUtil(
-            new LockFileUtil(dirname($appDir)),
-            $output
-        );
+        $this->fileUtil = $fileUtil;
     }
 
     public function generate()
@@ -60,7 +65,7 @@ final class CrudGenerator
     {
         $this->output->writeln('Generating FormType');
         $formType = FormGenerator::generate(
-            $this->reflection,
+            $this->annotationUtil,
             $this->meatUpDir,
             $this->entityBundleNameSpace
         );
@@ -132,7 +137,7 @@ final class CrudGenerator
     {
         $this->output->writeln('Generating index view');
         $indexView = IndexViewGenerator::generate(
-            $this->reflection,
+            $this->annotationUtil,
             $this->meatUpDir,
             $this->entityClassName
         );

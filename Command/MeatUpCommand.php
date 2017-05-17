@@ -6,6 +6,7 @@ use Ip\MeatUp\Generator\CrudGeneratorBuilder;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class MeatUpCommand extends ContainerAwareCommand
@@ -19,12 +20,23 @@ class MeatUpCommand extends ContainerAwareCommand
             // the short description shown while running "php bin/console list"
             ->setDescription('Creates a FormType, Controller and Twig files from your entitiy')
 
+            ->addArgument(
+                'classname',
+                InputArgument::REQUIRED,
+                'The classname of the entity.'
+            )
+
+            ->addOption(
+                'force',
+                'f',
+                InputOption::VALUE_NONE,
+                'Force to overwrite existing entries in the lock file'
+            )
+
             // the full command description shown when running the command with
             // the "--help" option
-            ->setHelp('TBD');
-
-        $this
-            ->addArgument('classname', InputArgument::REQUIRED, 'The classname of the entity.');
+            ->setHelp('TBD')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -32,10 +44,13 @@ class MeatUpCommand extends ContainerAwareCommand
         $className = $input->getArgument('classname');
         $output->writeln('Meat up: ' . $className);
 
+        $hasForce = !is_null($input->getOption('force'));
+
         $crudGenerator = CrudGeneratorBuilder::create()
             ->setClassName($className)
             ->setContainer($this->getContainer())
             ->setOutput($output)
+            ->setHasForce($hasForce)
             ->build();
 
         if ($crudGenerator->generate())
