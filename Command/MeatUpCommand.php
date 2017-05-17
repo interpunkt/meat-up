@@ -44,7 +44,7 @@ class MeatUpCommand extends ContainerAwareCommand
         $className = $input->getArgument('classname');
         $output->writeln('Meat up: ' . $className);
 
-        $hasForce = !is_null($input->getOption('force'));
+        $hasForce = !empty($input->getOption('force'));
 
         $crudGenerator = CrudGeneratorBuilder::create()
             ->setClassName($className)
