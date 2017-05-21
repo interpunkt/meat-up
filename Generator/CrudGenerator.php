@@ -64,11 +64,12 @@ final class CrudGenerator
     private function generateFormTypeFile()
     {
         $this->output->writeln('Generating FormType');
-        $formType = FormGenerator::generate(
+        $formGenerator = new FormGenerator(
             $this->annotationUtil,
             $this->meatUpDir,
             $this->entityBundleNameSpace
         );
+        $formType = $formGenerator->generate();
 
         $formTypeDir = $this->bundleRootDir . DIRECTORY_SEPARATOR . 'Form' .
             DIRECTORY_SEPARATOR . 'Type' .DIRECTORY_SEPARATOR;

@@ -4,9 +4,6 @@ namespace Ip\MeatUp\Util;
 
 class AnnotationResolver
 {
-    const ANNOTATION = 0;
-    const ATTRIBUTE = 1;
-
     /**
      * attribute or no attribute, that is here the question
      *
@@ -18,7 +15,7 @@ class AnnotationResolver
      * the attribute value type respectively length
      */
     private static $annotationsList = array(
-        // MeatUp annotations
+        // MeatUp
         'ManyToOneOrderBy' => ['name' => 'Ip\MeatUp\Mapping\ManyToOneOrderBy'],
         'ManyToOneOrderByNames' => ['name' => 'Ip\MeatUp\Mapping\ManyToOneOrderBy', 'attribute' => 'propertyNames'],
         'ManyToOneOrderByDirections' => ['name' => 'Ip\MeatUp\Mapping\ManyToOneOrderBy', 'attribute' => 'orderDirections'],
@@ -33,20 +30,23 @@ class AnnotationResolver
         'CKEditor' => ['name' => 'Ip\MeatUp\Mapping\CKEditor'],
         'CKEditorConfig' => ['name' => 'Ip\MeatUp\Mapping\CKEditor', 'attribute' => 'config'],
 
-        // Doctrine annotations
+        // Doctrine
         'Column' => ['name' => 'Doctrine\ORM\Mapping\Column'],
         'ColumnType' => ['name' => 'Doctrine\ORM\Mapping\Column', 'attribute' => 'type'],
         'ColumnNullable' => ['name' => 'Doctrine\ORM\Mapping\Column', 'attribute' => 'nullable'],
         'ColumnScale' => ['name' => 'Doctrine\ORM\Mapping\Column', 'attribute' => 'scale'],
         'Id' => ['name' => 'Doctrine\ORM\Mapping\Id'],
         'ManyToOne' => ['name' => 'Doctrine\ORM\Mapping\ManyToOne'],
-        'ManyToOneTargetEntity' => ['name' => 'Doctrine\ORM\Mapping\ManyToOne', 'attribute' => 'targetEntity']
+        'ManyToOneTargetEntity' => ['name' => 'Doctrine\ORM\Mapping\ManyToOne', 'attribute' => 'targetEntity'],
+
+        // Vich uploader
+        'VichUploadable' => ['name' => 'Vich\UploaderBundle\Mapping\Annotation\UploadableField'],
+        'VichUploadableFileNameProperty' => ['name' => 'Vich\UploaderBundle\Mapping\Annotation\UploadableField', 'attribute' => 'fileNameProperty'],
     );
 
     public static function resolve($name)
     {
-        if (!key_exists($name, self::$annotationsList))
-        {
+        if (!key_exists($name, self::$annotationsList)) {
             return false;
         }
 

@@ -14,7 +14,7 @@ class MeatUpCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            // the name of the command (the part after "bin/console")
+            // the name of the command (the part after "app/console")
             ->setName('ip:meat-up')
 
             // the short description shown while running "php bin/console list"
@@ -53,12 +53,10 @@ class MeatUpCommand extends ContainerAwareCommand
             ->setHasForce($hasForce)
             ->build();
 
-        if ($crudGenerator->generate())
-        {
+        if ($crudGenerator->generate()) {
             $output->writeln('Successfully created CRUD components');
         }
-        else
-        {
+        else {
             $output->writeln('Error while creating CRUD components');
         }
     }

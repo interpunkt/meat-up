@@ -36,6 +36,9 @@ class AnnotationUtil
         if ($this->hasHidden($property)) {
             return 'hidden';
         }
+        elseif ($this->hasVichUploadable($property)) {
+            return 'vichUploadable';
+        }
         elseif ($this->hasColumn($property)) {
             $columnType = $this->getColumnType($property);
 
