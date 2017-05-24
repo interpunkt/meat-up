@@ -70,9 +70,9 @@ class FormGenerator
                 }
 
                 if ($this->annotationUtil->has('ManyToOneOrderBy', $property)) {
-                    $field['orderByNames'] = $this->annotationUtil->get('ManyToOneOrderBy', 'names', $property);
+                    $field['orderByNames'] = $this->annotationUtil->get('ManyToOneOrderBy', 'propertyNames', $property);
                     $field['orderByDirections'] = $this->annotationUtil->get(
-                        'ManyToOneOrderBy', 'directions', $property);
+                        'ManyToOneOrderBy', 'orderDirections', $property);
                 }
             } elseif ('number' === $type) {
                 $scale = $this->annotationUtil->get('Column', 'scale', $property);
