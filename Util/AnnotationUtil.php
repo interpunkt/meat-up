@@ -94,11 +94,17 @@ class AnnotationUtil
         $annotation = $this->annotationReader
             ->getPropertyAnnotation($property, $resolvedAnnotation);
 
-        if (is_null($annotation) || !array_key_exists($attribute, $annotation)) {
+        if (is_null($annotation)) {
             return false;
         }
 
-        return $annotation->$attribute;
+        $attributeValue = $this->getAnnotationValue($annotation, $attribute);
+
+        if (is_null($attributeValue)) {
+            return false;
+        }
+
+        return $attributeValue;
     }
 
     public function has($key, $property)
@@ -115,5 +121,13 @@ class AnnotationUtil
             ->getPropertyAnnotation($property, $resolvedAnnotation);
 
         return !empty($annotation);
+    }
+
+    private function getAnnotationValue($annotation, $attribute)
+    {
+        $reflection = new ReflectionClass($annotation);
+        $property = $reflection->getProperty($attribute);
+        $property->setAccessible(true);
+        return $property->getValue($annotation);
     }
 }
