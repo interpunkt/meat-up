@@ -8,17 +8,27 @@ use Ip\MeatUp\Util\FileUtil;
 use Ip\MeatUp\Util\LockFileUtil;
 use ReflectionClass;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
-final class CrudGeneratorBuilder
+class CrudGeneratorBuilder
 {
     private $className;
+    /**
+     * @var Container
+     */
     private $container;
+    /**
+     * @var OutputInterface
+     */
     private $output;
     private $hasForce;
 
     // forbid use of constructor
-    private function __construct() {}
+    private function __construct()
+    {
+    }
 
     public static function create()
     {
@@ -89,10 +99,11 @@ final class CrudGeneratorBuilder
         $bundleRootDir = null;
         $entityBundleName = null;
 
-        foreach ($bundles as $bundle)
-        {
-            if (strpos($this->className, $bundle->getNamespace(), 0) === 0)
-            {
+        /**
+         * @var BundleInterface $bundle
+         */
+        foreach ($bundles as $bundle) {
+            if (strpos($this->className, $bundle->getNamespace(), 0) === 0) {
                 $entityBundleNameSpace = $bundle->getNamespace();
                 $bundleRootDir = $bundle->getPath();
                 $entityBundleName = $bundle->getName();
@@ -100,20 +111,17 @@ final class CrudGeneratorBuilder
             }
         }
 
-        if (is_null($bundleRootDir) || is_null($entityBundleNameSpace))
-        {
+        if (is_null($bundleRootDir) || is_null($entityBundleNameSpace)) {
             $this->output->writeln('Can\'t find bundle root dir');
             return false;
         }
 
-        if (is_null($entityBundleNameSpace))
-        {
+        if (is_null($entityBundleNameSpace)) {
             $this->output->writeln('Can\'t find namespace of entity');
             return false;
         }
 
-        if (is_null($entityBundleName))
-        {
+        if (is_null($entityBundleName)) {
             $this->output->writeln('Can\'t find bundle name of entity');
             return false;
         }
@@ -156,8 +164,7 @@ final class CrudGeneratorBuilder
 
     private function checkProperty($property, $propertyName)
     {
-        if (is_null($property))
-        {
+        if (is_null($property)) {
             throw new \BadMethodCallException('CrudGeneratorBuilder: called build without setting ' . $propertyName);
         }
     }

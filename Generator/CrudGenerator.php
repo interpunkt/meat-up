@@ -2,11 +2,13 @@
 
 namespace Ip\MeatUp\Generator;
 
+use Ip\MeatUp\Twig\MeatUpTwig;
 use Ip\MeatUp\Util\FileUtil;
 use Ip\MeatUp\Util\AnnotationUtil;
+use Ip\MeatUp\Util\FormImportUtil;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class CrudGenerator
+class CrudGenerator
 {
     private $annotationUtil;
     private $appDir;
@@ -28,8 +30,16 @@ final class CrudGenerator
      * @param OutputInterface $output
      * @param FileUtil $fileUtil
      */
-    public function __construct(AnnotationUtil $annotationUtil, $appDir, $meatUpDir, $entityBundleNameSpace, $bundleRootDir, $entityBundleName, OutputInterface $output, FileUtil $fileUtil)
-    {
+    public function __construct(
+        AnnotationUtil $annotationUtil,
+        $appDir,
+        $meatUpDir,
+        $entityBundleNameSpace,
+        $bundleRootDir,
+        $entityBundleName,
+        OutputInterface $output,
+        FileUtil $fileUtil
+    ) {
         $this->annotationUtil = $annotationUtil;
         $this->entityClassName = $this->annotationUtil->getClassShortName();
         $this->appDir = $appDir;
@@ -65,8 +75,9 @@ final class CrudGenerator
     {
         $this->output->writeln('Generating FormType');
         $formGenerator = new FormGenerator(
+            new MeatUpTwig($this->meatUpDir),
             $this->annotationUtil,
-            $this->meatUpDir,
+            new FormImportUtil(),
             $this->entityBundleNameSpace
         );
         $formType = $formGenerator->generate();
@@ -88,12 +99,15 @@ final class CrudGenerator
     private function generateControllerFile()
     {
         $this->output->writeln('Generating Controller');
-        $controller = ControllerGenerator::generate(
-            $this->meatUpDir,
+
+        $controllerGenerator = new ControllerGenerator(
+            new MeatUpTwig($this->meatUpDir),
             $this->entityBundleName,
             $this->entityClassName,
             $this->entityBundleNameSpace
         );
+
+        $controller = $controllerGenerator->generate();
 
         $controllerFile = $this->bundleRootDir . DIRECTORY_SEPARATOR
             . 'Controller' . DIRECTORY_SEPARATOR . $this->entityClassName . 'Controller.php';
@@ -137,11 +151,14 @@ final class CrudGenerator
     private function generateIndexViewFile($viewDir)
     {
         $this->output->writeln('Generating index view');
-        $indexView = IndexViewGenerator::generate(
+
+        $indexViewGenerator = new IndexViewGenerator(
+            new MeatUpTwig($this->meatUpDir),
             $this->annotationUtil,
-            $this->meatUpDir,
             $this->entityClassName
         );
+
+        $indexView = $indexViewGenerator->generate();
 
         $indexViewFile = $viewDir . DIRECTORY_SEPARATOR . 'index.html.twig';
 
@@ -156,10 +173,13 @@ final class CrudGenerator
     private function generateInsertViewFile($viewDir)
     {
         $this->output->writeln('Generating insert view');
-        $indexView = InsertViewGenerator::generate(
-            $this->meatUpDir,
+
+        $insertViewGenerator = new InsertViewGenerator(
+            new MeatUpTwig($this->meatUpDir),
             $this->entityClassName
         );
+
+        $indexView = $insertViewGenerator->generate();
 
         $insertViewFile = $viewDir . DIRECTORY_SEPARATOR . 'insert.html.twig';
 
@@ -174,10 +194,13 @@ final class CrudGenerator
     private function generateUpdateViewFile($viewDir)
     {
         $this->output->writeln('Generating update view');
-        $updateView = UpdateViewGenerator::generate(
-            $this->meatUpDir,
+
+        $updateViewGenerator = new UpdateViewGenerator(
+            new MeatUpTwig($this->meatUpDir),
             $this->entityClassName
         );
+
+        $updateView = $updateViewGenerator->generate();
 
         $updateViewFile = $viewDir . DIRECTORY_SEPARATOR . 'update.html.twig';
 

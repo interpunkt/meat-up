@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Ip\MeatUp\Tests\Twig;
 
-
 use Ip\MeatUp\Twig\ManyToOneChoiceLabelsExtension;
 use LogicException;
 use PHPUnit\Framework\TestCase;
+use Twig_SimpleFilter;
 
 final class ManyToOneChoiceLabelsExtensionTest extends TestCase
 {
@@ -22,6 +22,9 @@ final class ManyToOneChoiceLabelsExtensionTest extends TestCase
 
     public function testCorrectFilterName()
     {
+        /**
+         * @var Twig_SimpleFilter[] $filters
+         */
         $filters = $this->twigExtension->getFilters();
 
         $this->assertEquals(

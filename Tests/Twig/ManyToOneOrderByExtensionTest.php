@@ -7,6 +7,7 @@ use BadMethodCallException;
 use Ip\MeatUp\Twig\ManyToOneOrderByExtension;
 use LogicException;
 use PHPUnit\Framework\TestCase;
+use Twig_SimpleFilter;
 
 final class ManyToOneOrderByExtensionTest extends TestCase
 {
@@ -22,6 +23,9 @@ final class ManyToOneOrderByExtensionTest extends TestCase
 
     public function testCorrectFilterName()
     {
+        /**
+         * @var Twig_SimpleFilter[] $filters
+         */
         $filters = $this->twigExtension->getFilters();
 
         $this->assertEquals(

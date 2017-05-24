@@ -6,13 +6,22 @@ use Ip\MeatUp\Twig\MeatUpTwig;
 
 class UpdateViewGenerator
 {
-    public static function generate($meatUpDir, $entityClassName)
+    private $meatUpTwig;
+    private $entityClassName;
+
+    public function __construct(MeatUpTwig $meatUpTwig, $entityClassName)
     {
-        $twig = MeatUpTwig::get($meatUpDir);
+        $this->meatUpTwig = $meatUpTwig;
+        $this->entityClassName = $entityClassName;
+    }
+
+    public function generate()
+    {
+        $twig = $this->meatUpTwig->get();
 
         $indexView = $twig->render('views/update.html.twig.twig',
             array(
-                'name' => $entityClassName,
+                'name' => $this->entityClassName,
             )
         );
 

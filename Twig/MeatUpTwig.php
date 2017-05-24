@@ -4,11 +4,18 @@ namespace Ip\MeatUp\Twig;
 
 class MeatUpTwig
 {
-    public static function get($meatUpDir)
+    private $meatUpDir;
+
+    public function __construct($meatUpDir)
+    {
+        $this->meatUpDir = $meatUpDir;
+    }
+
+    public function get()
     {
         $twigEnv = new \Twig_Environment(
             new \Twig_Loader_Filesystem(
-                $meatUpDir . DIRECTORY_SEPARATOR . 'Resources' . DIRECTORY_SEPARATOR . 'crud'
+                $this->meatUpDir . DIRECTORY_SEPARATOR . 'Resources' . DIRECTORY_SEPARATOR . 'crud'
             ), array(
                 'debug' => true,
                 'cache' => false,

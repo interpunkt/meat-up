@@ -2,7 +2,7 @@
 
 namespace Ip\MeatUp\Util;
 
-final class FormImportUtil
+class FormImportUtil
 {
     private static $formImportList = array(
         'string' => 'use Symfony\Component\Form\Extension\Core\Type\TextType;',
@@ -19,10 +19,9 @@ final class FormImportUtil
                 'use Doctrine\ORM\EntityRepository;',
     );
 
-    public static function getImport($type)
+    public function getImport($type)
     {
-        if ( ! key_exists($type, self::$formImportList))
-        {
+        if (!key_exists($type, self::$formImportList)) {
             throw new \RuntimeException('FormImportUtil: Unknown type: ' . $type);
         }
 

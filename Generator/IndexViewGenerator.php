@@ -5,38 +5,51 @@ namespace Ip\MeatUp\Generator;
 use Ip\MeatUp\Util\AnnotationUtil;
 use Ip\MeatUp\Twig\MeatUpTwig;
 
-final class IndexViewGenerator
+class IndexViewGenerator
 {
-    public static function generate(AnnotationUtil $annotation, $meatUpDir, $entityClassName)
+    private $annotation;
+    private $meatUpTwig;
+    private $entityClassName;
+
+    public function __construct(MeatUpTwig $meatUpTwig, AnnotationUtil $annotation, $entityClassName)
+    {
+        $this->meatUpTwig = $meatUpTwig;
+        $this->annotation = $annotation;
+        $this->entityClassName = $entityClassName;
+    }
+
+    public function generate()
     {
         $indexProperties = array();
         $indexPropertyLabels = array();
         $indexPropertyFilters = array();
         $indexPropertyFilterArguments = array();
 
-        foreach ($annotation->getProperties() as $property)
-        {
-            if ($annotation->hasOnIndexPage($property))
-            {
+        /**
+         * @var \ReflectionProperty $property
+         */
+        foreach ($this->annotation->getProperties() as $property) {
+            if ($this->annotation->has('OnIndexPage', $property)) {
                 $propertyName = $property->getName();
                 $indexProperties[] = $propertyName;
 
-                $indexPropertyLabel = $annotation->getOnIndexPageLabel($property);
+                $indexPropertyLabel = $this->annotation->get('OnIndexPage', 'label', $property);
                 $indexPropertyLabels[] = !empty($indexPropertyLabel) ? $indexPropertyLabel : ucfirst($propertyName);
 
-                $indexPropertyFilter = $annotation->getOnIndexPageFilter($property);
+                $indexPropertyFilter = $this->annotation->get('OnIndexPage', 'filter', $property);
                 $indexPropertyFilters[]  = !empty($indexPropertyFilter) ? $indexPropertyFilter : '';
 
-                $indexPropertyFilterArgument = $annotation->getOnIndexPageFilterParameters($property);
-                $indexPropertyFilterArguments[]  = !empty($indexPropertyFilterArgument) ? $indexPropertyFilterArgument : '';
+                $indexPropertyFilterArgument = $this->annotation->get('OnIndexPage', 'filterParameters', $property);
+                $indexPropertyFilterArguments[] =
+                    !empty($indexPropertyFilterArgument) ? $indexPropertyFilterArgument : '';
             }
         }
 
-        $twig = MeatUpTwig::get($meatUpDir);
+        $twig = $this->meatUpTwig->get();
 
         $indexView = $twig->render('views/index.html.twig.twig',
             array(
-                'name' => $entityClassName,
+                'name' => $this->entityClassName,
                 'indexPropertyLabels' => $indexPropertyLabels,
                 'indexPropertyNames' => $indexProperties,
                 'indexPropertyFilters' => $indexPropertyFilters,

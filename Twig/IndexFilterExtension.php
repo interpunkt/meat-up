@@ -30,8 +30,7 @@ class IndexFilterExtension extends \Twig_Extension
 
             if ($i == $filterParameterLength - 1) {
                 $filterExpression .= ') ';
-            }
-            else {
+            } else {
                 $filterExpression .= ', ';
             }
         }

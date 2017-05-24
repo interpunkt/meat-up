@@ -33,32 +33,33 @@ class AnnotationUtil
 
     public function getType($property)
     {
-        if ($this->hasHidden($property)) {
+        if ($this->has('Hidden', $property)) {
             return 'hidden';
-        }
-        elseif ($this->hasVichUploadable($property)) {
+        } elseif ($this->has('VichUploadable', $property)) {
             return 'vichUploadable';
-        }
-        elseif ($this->hasColumn($property)) {
-            $columnType = $this->getColumnType($property);
+        } elseif ($this->has('Column', $property)) {
+            $columnType = $this->get('Column', 'type', $property);
 
             if ($columnType == 'decimal' || $columnType == 'float') {
                 return 'number';
             }
 
-            if ($columnType == 'text' && $this->hasCKEditor($property)) {
+            if ($columnType == 'text' && $this->has('CKEditor', $property)) {
                 return 'ckeditor';
             }
 
             return $columnType;
-        }
-        elseif ($this->hasManyToOne($property)) {
+        } elseif ($this->has('ManyToOne', $property)) {
             return 'manyToOne';
         }
 
         return false;
     }
 
+    /**
+     * @param \ReflectionProperty $property
+     * @return mixed
+     */
     public function getName($property)
     {
         return $property->getName();
@@ -66,7 +67,7 @@ class AnnotationUtil
 
     public function getRequired($property)
     {
-        $nullable = $this->getColumnNullable($property);
+        $nullable = $this->get('Column', 'nullable', $property);
 
         $type = $this->getType($property);
 
@@ -80,107 +81,39 @@ class AnnotationUtil
         return $nullable !== false ? 'false' : 'true';
     }
 
-    private function getAnnotationAttribute($property, $annotationName, $attributeName)
+    public function get($key, $attribute, $property)
     {
-        $annotation = $this->annotationReader
-            ->getPropertyAnnotation($property, $annotationName);
+        $resolvedAnnotation = AnnotationResolver::resolve($key);
 
-        if (is_null($annotation) || !array_key_exists($attributeName, $annotation)) {
+        if ($resolvedAnnotation === false) {
+            throw new \BadMethodCallException(
+                'Method has' . $key . '. is not implemented in AnnotationResolver'
+            );
+        }
+
+        $annotation = $this->annotationReader
+            ->getPropertyAnnotation($property, $resolvedAnnotation);
+
+        if (is_null($annotation) || !array_key_exists($attribute, $annotation)) {
             return false;
         }
 
-        return $annotation->$attributeName;
+        return $annotation->$attribute;
     }
 
-    private function hasAnnotation($property, $annotationName)
+    public function has($key, $property)
     {
+        $resolvedAnnotation = AnnotationResolver::resolve($key);
+
+        if ($resolvedAnnotation === false) {
+            throw new \BadMethodCallException(
+                'Method has' . $key . '. is not implemented in AnnotationResolver'
+            );
+        }
+
         $annotation = $this->annotationReader
-            ->getPropertyAnnotation($property, $annotationName);
+            ->getPropertyAnnotation($property, $resolvedAnnotation);
 
         return !empty($annotation);
-    }
-
-    /**
-     * Is called when a function is not defined. In this case it is used to resolve get and has
-     * function calls
-     *
-     * @param string $method
-     * @param array  $arguments
-     *
-     * @return mixed The returned value from the resolved method.
-     *
-     * @throws \BadMethodCallException If the method called is invalid
-     */
-    public function __call($method, $arguments)
-    {
-        if (count($arguments) != 1) {
-            throw new \BadMethodCallException(
-                'Method has has to be called with exactly one parameter'
-            );
-        }
-
-        $property = $arguments[0];
-
-        if (strpos($method, 'get') === 0) {
-            return $this->resolveGetCall(substr($method, 3), $property);
-        }
-
-        if (strpos($method, 'has') === 0) {
-            return $this->resolveHasCall(substr($method, 3), $property);
-        }
-
-        throw new \BadMethodCallException(
-            "Undefined method '$method'. The method name must start with either get or has!"
-        );
-    }
-
-    /**
-     * Resolves a magic method call to check if an annotation exists
-     *
-     * @param string $key       The name of the corresponding annotation
-     * @param string $property  The arguments to pass at method call
-     *
-     * @throws \BadMethodCallException If the method called is invalid or the requested annotation does not exist
-     *
-     * @return boolean
-     */
-    private function resolveHasCall($key, $property)
-    {
-        $resolvedAnnotation = AnnotationResolver::resolve($key);
-
-        if ($resolvedAnnotation === false) {
-            throw new \BadMethodCallException(
-                'Method has' . $key . '. is not implemented in AnnotationResolver'
-            );
-        }
-
-        return $this->hasAnnotation($property, $resolvedAnnotation['name']);
-    }
-
-    /**
-     * Resolves a magic method call to return an attribute of an annotation
-     *
-     * @param string $key       The name of the corresponding attribute
-     * @param string $property  The arguments to pass at method call
-     *
-     * @throws \BadMethodCallException If the method called is invalid or the requested attribute does not exist
-     *
-     * @return mixed
-     */
-    private function resolveGetCall($key, $property)
-    {
-        $resolvedAnnotation = AnnotationResolver::resolve($key);
-
-        if ($resolvedAnnotation === false) {
-            throw new \BadMethodCallException(
-                'Method has' . $key . '. is not implemented in AnnotationResolver'
-            );
-        }
-
-        return $this->getAnnotationAttribute(
-            $property,
-            $resolvedAnnotation['name'],
-            $resolvedAnnotation['attribute']
-        );
     }
 }

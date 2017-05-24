@@ -5,13 +5,15 @@ namespace Ip\MeatUp\Tests\Util;
 use Ip\MeatUp\Util\LockFileUtil;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
+use PHPUnit_Framework_TestCase;
 
-class LockFileUtilTest extends \PHPUnit_Framework_TestCase
+class LockFileUtilTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var vfsStreamDirectory
      */
     private $root;
+
     public function setUp()
     {
         $this->root = vfsStream::setup('testDir');

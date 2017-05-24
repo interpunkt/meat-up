@@ -18,7 +18,9 @@ class ManyToOneOrderByExtension extends \Twig_Extension
         }
 
         if (count($sortArray) != count($orderArray)) {
-            throw new \LogicException('manyToOneOrderBy always needs the same number of values for propertyNames and orderDirections');
+            throw new \LogicException(
+                'manyToOneOrderBy always needs the same number of values for propertyNames and orderDirections'
+            );
         }
 
         $orderByExpression = '';
@@ -27,13 +29,14 @@ class ManyToOneOrderByExtension extends \Twig_Extension
 
         for ($i = 0; $i < $sortLength; ++$i) {
             if ($orderArray[$i] != 'ASC' && $orderArray[$i] != 'DESC') {
-                throw new \BadMethodCallException('orderDirections of annotation ManyToOneOrderBy needs to be ASC or DESC');
+                throw new \BadMethodCallException(
+                    'orderDirections of annotation ManyToOneOrderBy needs to be ASC or DESC'
+                );
             }
 
             if ($i == 0) {
                 $orderByExpression .= '->orderBy(\'e.' . $sortArray[$i] . '\', \'' . $orderArray[$i] . '\')';
-            }
-            else {
+            } else {
                 // add white spaces for correct indentation
                 for ($j = 0; $j < 20; ++$j) {
                     $orderByExpression .= ' ';
@@ -43,8 +46,7 @@ class ManyToOneOrderByExtension extends \Twig_Extension
 
             if ($i == $sortLength - 1) {
                 $orderByExpression .= ';';
-            }
-            else {
+            } else {
                 $orderByExpression .= PHP_EOL;
             }
         }

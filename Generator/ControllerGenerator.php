@@ -6,19 +6,30 @@ use Ip\MeatUp\Twig\MeatUpTwig;
 
 class ControllerGenerator
 {
-    public static function generate($meatUpDir, $entityBundleName,
-                                    $entityClassName, $entityBundleNameSpace)
-    {
+    private $meatUpTwig;
+    private $entityBundleName;
+    private $entityClassName;
+    private $entityBundleNameSpace;
 
-        $twig = MeatUpTwig::get($meatUpDir);
+    public function __construct(MeatUpTwig $meatUpTwig, $entityBundleName, $entityClassName, $entityBundleNameSpace)
+    {
+        $this->meatUpTwig = $meatUpTwig;
+        $this->entityBundleName = $entityBundleName;
+        $this->entityClassName = $entityClassName;
+        $this->entityBundleNameSpace = $entityBundleNameSpace;
+    }
+
+    public function generate()
+    {
+        $twig = $this->meatUpTwig->get();
 
         $controller = $twig->render('controller.php.twig',
             array(
-                'entityBundleNameSpace' => $entityBundleNameSpace,
-                'name' => $entityClassName,
+                'entityBundleNameSpace' => $this->entityBundleNameSpace,
+                'name' => $this->entityClassName,
                 // TODO get real plural
-                'plural' => $entityClassName,
-                'entityBundleName' => $entityBundleName,
+                'plural' => $this->entityClassName,
+                'entityBundleName' => $this->entityBundleName,
             )
         );
 

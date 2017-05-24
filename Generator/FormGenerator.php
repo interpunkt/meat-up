@@ -6,17 +6,27 @@ use Ip\MeatUp\Util\FormImportUtil;
 use Ip\MeatUp\Util\AnnotationUtil;
 use Ip\MeatUp\Twig\MeatUpTwig;
 
-final class FormGenerator
+class FormGenerator
 {
+    /**
+     * @var AnnotationUtil
+     */
     private $annotationUtil;
-    private $meatUpDir;
+    /**
+     * @var FormImportUtil
+     */
+    private $formImportUtil;
+    /**
+     * @var MeatUpTwig
+     */
+    private $meatUpTwig;
     private $entityBundleNameSpace;
     private $vichFileNameProperties;
 
-    public function __construct(AnnotationUtil $annotationUtil, $meatUpDir, $entityBundleNameSpace)
-    {
+    public function __construct(MeatUpTwig $meatUpTwig, AnnotationUtil $annotationUtil, FormImportUtil $formImportUtil, $entityBundleNameSpace) {
+        $this->meatUpTwig = $meatUpTwig;
         $this->annotationUtil = $annotationUtil;
-        $this->meatUpDir = $meatUpDir;
+        $this->formImportUtil = $formImportUtil;
         $this->entityBundleNameSpace = $entityBundleNameSpace;
     }
 
@@ -53,31 +63,29 @@ final class FormGenerator
 
             if ('manyToOne' === $type) {
                 $field['class'] = $this->entityBundleNameSpace . '\Entity\\' .
-                    $this->annotationUtil->getManyToOneTargetEntity($property);
+                    $this->annotationUtil->get('ManyToOne', 'targetEntity', $property);
 
-                if ($this->annotationUtil->hasManyToOneChoice($property)) {
-                    $field['choiceLabels'] = $this->annotationUtil->getManyToOneChoiceLabels($property);
+                if ($this->annotationUtil->has('ManyToOneChoice', $property)) {
+                    $field['choiceLabels'] = $this->annotationUtil->get('ManyToOneChoice', 'labels', $property);
                 }
 
-                if ($this->annotationUtil->hasManyToOneOrderBy($property)) {
-                    $field['orderByNames'] = $this->annotationUtil->getManyToOneOrderByNames($property);
-                    $field['orderByDirections'] = $this->annotationUtil->getManyToOneOrderByDirections($property);
+                if ($this->annotationUtil->has('ManyToOneOrderBy', $property)) {
+                    $field['orderByNames'] = $this->annotationUtil->get('ManyToOneOrderBy', 'names', $property);
+                    $field['orderByDirections'] = $this->annotationUtil->get(
+                        'ManyToOneOrderBy', 'directions', $property);
                 }
-            }
-            elseif('number' === $type) {
-                $scale = $this->annotationUtil->getColumnScale($property);
+            } elseif ('number' === $type) {
+                $scale = $this->annotationUtil->get('Column', 'scale', $property);
                 if ($scale !== false) {
                     $field['scale'] = $scale;
                 }
-            }
-            elseif ('ckeditor' === $type) {
-                $config = $this->annotationUtil->getCKEditorConfig($property);
+            } elseif ('ckeditor' === $type) {
+                $config = $this->annotationUtil->get('CKEditor', 'config', $property);
                 if (!empty($config)) {
                     $field['config'] = $config;
                 }
-            }
-            elseif ('vichUploadable' === $type) {
-                $fileNameProperty = $this->annotationUtil->getVichUploadableFileNameProperty($property);
+            } elseif ('vichUploadable' === $type) {
+                $fileNameProperty = $this->annotationUtil->get('VichUploadable', 'fileNameProperty', $property);
                 $this->vichFileNameProperties[] = $fileNameProperty;
             }
 
@@ -87,7 +95,7 @@ final class FormGenerator
         $fields = $this->removeVichFileNameProperties($fields);
 
         foreach ($fields as $field) {
-            $import = FormImportUtil::getImport($field['type']);
+            $import = $this->formImportUtil->getImport($field['type']);
 
             if (!in_array($import, $imports)) {
                 $imports[] = $import;
@@ -96,7 +104,7 @@ final class FormGenerator
 
         sort($imports);
 
-        $twig = MeatUpTwig::get($this->meatUpDir);
+        $twig = $this->meatUpTwig->get();
 
         $formType = $twig->render('formType.php.twig',
             array(
@@ -112,11 +120,11 @@ final class FormGenerator
 
     private function isNotUsed($property)
     {
-        if ($this->annotationUtil->hasId($property)) {
+        if ($this->annotationUtil->has('Id', $property)) {
             return true;
         }
 
-        if ($this->annotationUtil->hasIgnore($property)) {
+        if ($this->annotationUtil->has('Ignore', $property)) {
             return true;
         }
 
@@ -125,9 +133,9 @@ final class FormGenerator
 
     private function removeVichFileNameProperties($fields)
     {
-        foreach ($fields as $key => $field) {
-            if (in_array($key, $this->vichFileNameProperties)) {
-                unset($fields[$key]);
+        foreach ($this->vichFileNameProperties as $fileNameProperty) {
+            if (array_key_exists($fileNameProperty, $fields)) {
+                unset($fields[$fileNameProperty]);
             }
         }
 

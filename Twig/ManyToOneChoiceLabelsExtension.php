@@ -3,7 +3,6 @@
 
 namespace Ip\MeatUp\Twig;
 
-
 class ManyToOneChoiceLabelsExtension extends \Twig_Extension
 {
     public function getFilters()
@@ -19,8 +18,7 @@ class ManyToOneChoiceLabelsExtension extends \Twig_Extension
 
         if ($labelsLength == 0) {
             throw new \LogicException('The parameter for manyToOneChoiceLabels must not be empty');
-        }
-        elseif ($labelsLength == 1) {
+        } elseif ($labelsLength == 1) {
             return '\'' . $choiceLabels[0] . '\'';
         }
 
