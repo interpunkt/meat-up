@@ -3,5 +3,7 @@
 {% if field["scale"] is defined %}
                 'scale' => {{ field["scale"] }},
 {% endif %}
-                'required' => {{ field["required"] }}
+{% if field["required"] == false %}
+                'required' => false,
+{% endif %}
             ))

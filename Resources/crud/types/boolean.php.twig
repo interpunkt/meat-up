@@ -1,4 +1,6 @@
             ->add('{{ field["name"] }}', CheckboxType::class, array(
                 'label' => '{{ field["label"] }}',
-                'required' => false
+{% if field["required"] == false %}
+                'required' => false,
+{% endif %}
             ))

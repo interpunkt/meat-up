@@ -57,7 +57,7 @@ class FormGenerator
             $field['required'] = $this->annotationUtil->getRequired($property);
             $field['label'] = ucfirst($field['name']);
 
-            if ($field['required'] == "true") {
+            if (true === $field['required']) {
                 $field['label'] .= ' *';
             }
 

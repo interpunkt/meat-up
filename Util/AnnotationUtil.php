@@ -69,16 +69,7 @@ class AnnotationUtil
     {
         $nullable = $this->get('Column', 'nullable', $property);
 
-        $type = $this->getType($property);
-
-        /**
-         * boolean is never mandatory, otherwise it couldn't be left unchecked
-         */
-        if ($type == 'boolean') {
-            return 'false';
-        }
-
-        return $nullable !== false ? 'false' : 'true';
+        return $nullable !== false;
     }
 
     public function get($key, $attribute, $property)

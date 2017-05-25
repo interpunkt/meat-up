@@ -1,6 +1,8 @@
             ->add('{{ field["name"] }}', VichFileType::class, array(
                 'label' => '{{ field["label"] }}',
-                'required' => {{ field["required"] }},
+{% if field["required"] == false %}
+                'required' => false,
+{% endif %}
                 'allow_delete' => true,
                 'download_link' => true,
             ))

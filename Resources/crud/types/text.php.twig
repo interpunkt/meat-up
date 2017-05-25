@@ -1,7 +1,9 @@
             ->add('{{ field["name"] }}', TextareaType::class, array(
                 'label' => '{{ field["label"] }}',
-                'required' => {{ field["required"] }},
+{% if field["required"] == false %}
+                'required' => false,
+{% endif %}
                 'attr' => array(
-                    'rows' => 8
-                )
+                    'rows' => 8,
+                ),
             ))
