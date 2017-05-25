@@ -69,7 +69,7 @@ class AnnotationUtil
     {
         $nullable = $this->get('Column', 'nullable', $property);
 
-        return $nullable !== false;
+        return $nullable === false;
     }
 
     public function get($key, $attribute, $property)

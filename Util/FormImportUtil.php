@@ -5,18 +5,18 @@ namespace Ip\MeatUp\Util;
 class FormImportUtil
 {
     private static $formImportList = array(
-        'string' => 'use Symfony\Component\Form\Extension\Core\Type\TextType;',
-        'datetime' => 'use Symfony\Component\Form\Extension\Core\Type\DateTimeType;',
-        'date' => 'use Symfony\Component\Form\Extension\Core\Type\DateType;',
-        'text' => 'use Symfony\Component\Form\Extension\Core\Type\TextareaType;',
-        'integer' => 'use Symfony\Component\Form\Extension\Core\Type\IntegerType;',
-        'hidden' => 'use Symfony\Component\Form\Extension\Core\Type\HiddenType;',
-        'number' => 'use Symfony\Component\Form\Extension\Core\Type\NumberType;',
-        'ckeditor' => 'use Ivory\CKEditorBundle\Form\Type\CKEditorType;',
-        'boolean' => 'use Symfony\Component\Form\Extension\Core\Type\CheckboxType;',
-        'vichUploadable' => 'use Vich\UploaderBundle\Form\Type\VichFileType;',
-        'manyToOne' => 'use Symfony\Bridge\Doctrine\Form\Type\EntityType;' . PHP_EOL .
-                'use Doctrine\ORM\EntityRepository;',
+        'string' => 'Symfony\Component\Form\Extension\Core\Type\TextType',
+        'datetime' => 'Symfony\Component\Form\Extension\Core\Type\DateTimeType',
+        'date' => 'Symfony\Component\Form\Extension\Core\Type\DateType',
+        'text' => 'Symfony\Component\Form\Extension\Core\Type\TextareaType',
+        'integer' => 'Symfony\Component\Form\Extension\Core\Type\IntegerType',
+        'hidden' => 'Symfony\Component\Form\Extension\Core\Type\HiddenType',
+        'number' => 'Symfony\Component\Form\Extension\Core\Type\NumberType',
+        'ckeditor' => 'Ivory\CKEditorBundle\Form\Type\CKEditorType',
+        'boolean' => 'Symfony\Component\Form\Extension\Core\Type\CheckboxType',
+        'vichUploadable' => 'Vich\UploaderBundle\Form\Type\VichFileType',
+        'manyToOne' => 'Symfony\Bridge\Doctrine\Form\Type\EntityType',
+        'manyToOneOrderBy' => 'Doctrine\ORM\EntityRepository',
     );
 
     public function getImport($type)

@@ -100,6 +100,14 @@ class FormGenerator
             if (!in_array($import, $imports)) {
                 $imports[] = $import;
             }
+
+            if ('manyToOne' === $field['type'] && array_key_exists('orderByNames', $field)) {
+                $import = $this->formImportUtil->getImport('manyToOneOrderBy');
+
+                if (!in_array($import, $imports)) {
+                    $imports[] = $import;
+                }
+            }
         }
 
         sort($imports);
