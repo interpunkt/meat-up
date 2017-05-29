@@ -70,12 +70,12 @@
                             </thead>
 
                             <tbody>
-                            {{ '{% for item in ' }}{{ name }}{{ ' %}' }}
+                            {{ '{% for item in ' }}{{ name | lower }}{{ ' %}' }}
                                 <tr>
 {% for name in indexPropertyNames %}
 {% set propertyFilter = indexPropertyFilters[loop.index0] %}
 {% set propertyFilterParameter = indexPropertyFilterArguments[loop.index0] %}
-                                    <td class="vert-align">{{ '{{ item.'}}{{ name}}{{ propertyFilter | indexFilter(propertyFilterParameter) }}{{ ' }}' }}</td>
+                                    <td class="vert-align">{{ '{{ item.'}}{{ name }}{{ propertyFilter | indexFilter(propertyFilterParameter) }}{{ ' }}' }}</td>
 {% endfor %}
                                     <td class="vert-align">
                                         <div class="btn-group btn-group-sm">

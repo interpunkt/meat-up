@@ -1,7 +1,21 @@
+MeatUp Bundle
+============
+
+The MeatUp Bundle is a Symfony bundle that provides a command for generating a CRUD controller based on a Doctrine Entity. It uses the Symfony Skeleton Application from inter-Punkt as a starting basis. The bundle will generate the following files for you:
+
+* A FormType based on a Doctrine Entity and some of MeatUps annotations
+* A Controller for the CRUD operations
+* A view file for a tabular presentation of all records
+* View files for creating and updating records
+
 Requirements
 ============
 
-[Symfony 2.8.* Skeleton Application](https://github.com/interpunkt/ip-symfony-skeleton)
+* [Symfony 2.8.* Skeleton Application](https://github.com/interpunkt/ip-symfony-skeleton)
+* [Symfony Framework Bundle](https://github.com/symfony/symfony)
+* [Doctrine Annotations](http://docs.doctrine-project.org/projects/doctrine-common/en/latest/reference/annotations.html)
+* [Symfony Filesystem](https://symfony.com/doc/current/components/filesystem.html)
+* [VichUploaderBundle](https://github.com/dustin10/VichUploaderBundle)
 
 Installation
 ============
@@ -48,11 +62,14 @@ class AppKernel extends Kernel
 }
 ```
 
-Step 3: Usage
--------------------------
+Usage
+=====
 
-To create the FormType, Controller and the views execute the following console command with the fully qualified class name of the entity:
+For the usage documentation see:
 
-```console
-$ php app/console ip:meat-up "DevPro\adminBundle\Entity\example"
-```
+[Resources/doc/index.md](https://github.com/interpunkt/meat-up/blob/master/Resources/doc/index.md)
+
+License
+=======
+
+See the bundled [LICENSE](https://github.com/interpunkt/meat-up/blob/master/LICENSE) file.
