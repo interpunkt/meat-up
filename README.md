@@ -67,9 +67,9 @@ Usage
 
 For the usage documentation see:
 
-[Resources/doc/index.md](https://github.com/interpunkt/meat-up/blob/master/Resources/doc/index.md)
+[Resources/doc/index.md](Resources/doc/index.md)
 
 License
 =======
 
-See the bundled [LICENSE](https://github.com/interpunkt/meat-up/blob/master/LICENSE) file.
+See the bundled [LICENSE](LICENSE) file.

@@ -111,4 +111,4 @@ That's it! Now we execute the MeatUp command once more and after reloading the w
 $ php app/console ip:meat-up "DevPro\adminBundle\Entity\Meatup"
 ```
 
-You now know already how to use the MeatUp command to create simple CRUD controllers. For more advanced usages please refer to the [docs](https://github.com/interpunkt/meat-up/blob/master/Resources/doc/index.md).
+You now know already how to use the MeatUp command to create simple CRUD controllers. For more advanced usages please refer to the [docs](index.md).
