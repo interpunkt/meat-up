@@ -5,8 +5,8 @@ The MeatUp command tries to get as much information as possible from the standar
 
 | Annotation | Description |
 | --- | --- |
-| CKEditor | Uses the CKEditor for rendering this field |
-| Hidden | Render this property as a hidden field |
+| [CKEditor](ckeditor.md) | Uses the CKEditor for rendering this field |
+| [Hidden](hidden.md) | Render this property as a hidden field |
 | [Ignore](ignore.md) | Ignore this property in the form |
 | [ManyToOneChoice](many_to_one_choice.md) | Defines which properties should be displayed for a ManyToOneRelation field |
 | [ManyToOneOrderBy](many_to_one_order_by.md) | Define in which order a ManyToOne relation should be shown |

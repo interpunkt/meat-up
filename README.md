@@ -13,8 +13,10 @@ Requirements
 
 * [Symfony 2.8.* Skeleton Application](https://github.com/interpunkt/ip-symfony-skeleton)
 * [Symfony Framework Bundle](https://github.com/symfony/symfony)
+* [Twig](https://twig.sensiolabs.org/doc/2.x/)
 * [Doctrine Annotations](http://docs.doctrine-project.org/projects/doctrine-common/en/latest/reference/annotations.html)
 * [Symfony Filesystem](https://symfony.com/doc/current/components/filesystem.html)
+* [IvoryCKEditorBundle](http://symfony.com/doc/master/bundles/IvoryCKEditorBundle/index.html)
 * [VichUploaderBundle](https://github.com/dustin10/VichUploaderBundle)
 
 Installation

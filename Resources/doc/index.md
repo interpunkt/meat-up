@@ -8,3 +8,4 @@ Usage
 
 * [Basic usage](basic_usage.md)
 * [Use MeatUp Annotations to use the full potential of the MeatUp command](annotations.md)
+* [Supported Doctrine annotations](doctrine_supported_annotations.md)

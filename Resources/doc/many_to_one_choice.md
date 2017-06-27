@@ -1,7 +1,7 @@
 ManyToOneChoice
 ===============
 
-By default a [EntityType](http://symfony.com/doc/current/reference/forms/types/entity.html) field is rendered as a dropdown menu with it's items display by calling the `__toString()` method. With the ManyToOneChoice annotation you can change this any number of properties.
+By default a [EntityType](http://symfony.com/doc/current/reference/forms/types/entity.html) field is rendered as a dropdown menu with it's items display by calling the `__toString()` method. With the ManyToOneChoice annotation you can change this to any number of properties.
 
 Attribute definitions
 ---------------------
@@ -46,6 +46,7 @@ use Ip\MeatUp\Mapping as MU;
     /**
      * @ORM\ManyToOne(targetEntity="Person")
      * @MU\ManyToOneChoice(labels={"firstName"})
+     */
     private $person;
 
 ...
@@ -59,6 +60,7 @@ use Ip\MeatUp\Mapping as MU;
     /**
      * @ORM\ManyToOne(targetEntity="Person")
      * @MU\ManyToOneChoice(labels={"firstName", "lastName"})
+     */
     private $person;
 
 ...
