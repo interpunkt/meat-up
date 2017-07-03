@@ -115,7 +115,8 @@ final class LockFileUtil
 
     public function getErrorMsg()
     {
-        return $this->errorMsg.' It is not safe to overwrite it. For more details please refer to https://github.com/interpunkt/meat-up/blob/master/Resources/doc/lock_file.md';
+        return $this->errorMsg.' It is not safe to overwrite it. '. PHP_EOL .
+            'For more details please refer to https://github.com/interpunkt/meat-up/blob/master/Resources/doc/lock_file.md';
     }
 
     private function getRelativePath($fileName)
