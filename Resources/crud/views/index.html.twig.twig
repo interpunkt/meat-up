@@ -79,8 +79,18 @@
 {% endfor %}
                                     <td class="vert-align">
                                         <div class="btn-group btn-group-sm">
-                                            <a href="{{ '{{ path(indexPath~\'_update\', {\'id\' : item.id }) }}' }}" class="btn btn-default" data-tooltip="Eintrag bearbeiten" data-tooltip-position="top"><span class="glyphicon glyphicon-pencil" aria-hidden="true">&nbsp;</span>bearbeiten</a>
+                                            <a href="{{ '{{ path(indexPath~\'_update\', {\''~doctrineIndexName~'\' : item.'~doctrineIndexName~' }) }}' }}" class="btn btn-default" data-tooltip="Eintrag bearbeiten" data-tooltip-position="top"><span class="glyphicon glyphicon-pencil" aria-hidden="true">&nbsp;</span>bearbeiten</a>
                                         </div>
+{% if sortablePositionName is not null %}
+                                        <div class="btn-group btn-group-sm">
+                                            {{ '{% if item.'~sortablePositionName~' != loop.length - 1 %}' }}
+                                                <a href="{{ '{{ path(indexPath~\'_down\', {\''~doctrineIndexName~'\' : item.'~doctrineIndexName~' }) }}' }}" class="btn btn-default" data-tooltip="Hinabreihen" data-tooltip-position="top"><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></a>
+                                            {{ '{% endif %}' }}
+                                            {{ '{% if item.'~sortablePositionName~' != 0 %}' }}
+                                                <a href="{{ '{{ path(indexPath~\'_up\', {\''~doctrineIndexName~'\' : item.'~doctrineIndexName~' }) }}' }}" class="btn btn-default" data-tooltip="Hinaufreihen" data-tooltip-position="top"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a>
+                                            {{ '{% endif %}' }}
+                                        </div>
+{% endif %}
                                     </td>
                                 </tr>
                             {{ '{% endfor %}' }}

@@ -20,6 +20,9 @@ class AnnotationResolver
 
         // Vich uploader
         'VichUploadable' => 'Vich\UploaderBundle\Mapping\Annotation\UploadableField',
+
+        // StofDoctrineExtensionsBundle
+        'SortablePosition' => 'Gedmo\Mapping\Annotation\SortablePosition',
     );
 
     public static function resolve($name)

@@ -102,6 +102,7 @@ class CrudGenerator
 
         $controllerGenerator = new ControllerGenerator(
             new MeatUpTwig($this->meatUpDir),
+            $this->annotationUtil,
             $this->entityBundleName,
             $this->entityClassName,
             $this->entityBundleNameSpace

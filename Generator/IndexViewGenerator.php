@@ -25,6 +25,9 @@ class IndexViewGenerator
         $indexPropertyFilters = array();
         $indexPropertyFilterArguments = array();
 
+        $sortablePositionName = null;
+        $doctrineIndexName = null;
+
         /**
          * @var \ReflectionProperty $property
          */
@@ -43,6 +46,14 @@ class IndexViewGenerator
                 $indexPropertyFilterArguments[] =
                     !empty($indexPropertyFilterArgument) ? $indexPropertyFilterArgument : '';
             }
+
+            if ($this->annotation->has('SortablePosition', $property)) {
+                $sortablePositionName = $property->getName();
+            }
+
+            if ($this->annotation->has('Id', $property)) {
+                $doctrineIndexName = $property->getName();
+            }
         }
 
         $twig = $this->meatUpTwig->get();
@@ -53,7 +64,9 @@ class IndexViewGenerator
                 'indexPropertyLabels' => $indexPropertyLabels,
                 'indexPropertyNames' => $indexProperties,
                 'indexPropertyFilters' => $indexPropertyFilters,
-                'indexPropertyFilterArguments' => $indexPropertyFilterArguments
+                'indexPropertyFilterArguments' => $indexPropertyFilterArguments,
+                'sortablePositionName' => $sortablePositionName,
+                'doctrineIndexName' => $doctrineIndexName,
             )
         );
 
