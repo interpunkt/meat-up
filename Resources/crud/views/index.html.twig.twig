@@ -75,7 +75,11 @@
 {% for name in indexPropertyNames %}
 {% set propertyFilter = indexPropertyFilters[loop.index0] %}
 {% set propertyFilterParameter = indexPropertyFilterArguments[loop.index0] %}
+{% if sortablePositionName is not null and sortablePositionName == name %}
+                                    <td class="vert-align">{{ '{{ item.'}}{{ name }}{{ ' +1 }}' }}</td>
+{% else %}
                                     <td class="vert-align">{{ '{{ item.'}}{{ name }}{{ propertyFilter | indexFilter(propertyFilterParameter) }}{{ ' }}' }}</td>
+{% endif %}
 {% endfor %}
                                     <td class="vert-align">
                                         <div class="btn-group btn-group-sm">
@@ -102,3 +106,13 @@
         </div>
     </section>
 {{ '{% endblock %}' }}
+
+{% if sortablePositionName is not null %}
+{{ '{% block layoutScripts %}' }}
+    <script>
+        dataTablesOrder = [[ 0, "asc" ]];
+    </script>
+
+    {{ '{{ parent() }}' }}
+{{ '{% endblock %}' }}
+{% endif %}
