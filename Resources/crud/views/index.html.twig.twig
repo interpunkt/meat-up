@@ -1,4 +1,4 @@
-{% set sortPosition = 0 %}
+{% set sortPosition = -1 %}
 
 {{ '{################################################
     Layout Definitions & Variables
@@ -78,7 +78,7 @@
 {% set propertyFilter = indexPropertyFilters[loop.index0] %}
 {% set propertyFilterParameter = indexPropertyFilterArguments[loop.index0] %}
 {% if sortablePositionName is not null and sortablePositionName == name %}
-                                    {% set sortPosition = loop.index0 %}
+{% set sortPosition = loop.index0 %}
                                     <td class="vert-align">{{ '{{ item.'}}{{ name }}{{ ' +1 }}' }}</td>
 {% else %}
                                     <td class="vert-align">{{ '{{ item.'}}{{ name }}{{ propertyFilter | indexFilter(propertyFilterParameter) }}{{ ' }}' }}</td>
@@ -110,7 +110,7 @@
     </section>
 {{ '{% endblock %}' }}
 
-{% if sortablePositionName is not null %}
+{% if sortablePositionName is not null and sortPosition >= 0 %}
 {{ '{% block layoutScripts %}' }}
     <script>
         dataTablesOrder = [[ {{ sortPosition }}, "asc" ]];

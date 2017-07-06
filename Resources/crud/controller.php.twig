@@ -145,7 +145,7 @@ class {{ name }}Controller extends Controller
     * @param {{ name }} ${{ name | lower }}
     * @return \Symfony\Component\HttpFoundation\RedirectResponse
     */
-    public function movePositionUp({{ name }} ${{ name | lower }})
+    public function movePositionUpAction({{ name }} ${{ name | lower }})
     {
         ${{ name | lower }}->setPosition(${{ name | lower }}->getPosition() - 1);
 
@@ -161,7 +161,7 @@ class {{ name }}Controller extends Controller
     * @param {{ name }} ${{ name | lower }}
     * @return \Symfony\Component\HttpFoundation\RedirectResponse
     */
-    public function movePositionDown({{ name }} ${{ name | lower }})
+    public function movePositionDownAction({{ name }} ${{ name | lower }})
     {
         ${{ name | lower }}->set{{ sortablePositionName | capitalize }}(${{ name | lower }}->get{{ sortablePositionName | capitalize }}() + 1);
 

@@ -1,9 +1,9 @@
-Supported VichUploaderBundle annotations
-========================================
+File upload with the VichUploaderBundle
+=======================================
 
 For handling the Uploading of files the MeatUp command relies on the [VichUploaderBundle](https://github.com/dustin10/VichUploaderBundle).
 
-On this page you find the documentation on how the MeatUp command is using these annotations.
+On this page you find the documentation on how the MeatUp command is using this bundle.
 
 Installation
 ------------

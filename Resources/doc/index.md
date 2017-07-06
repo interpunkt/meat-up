@@ -13,7 +13,11 @@ Usage
 * [Basic usage](https://github.com/interpunkt/meat-up#basic-usage)
 * [Use MeatUp Annotations to use the full potential of the MeatUp command](annotations.md)
 * [Supported Doctrine annotations](doctrine_supported_annotations.md)
-* [Supported VichUploaderBundle annotations](vich_supported_annotations.md)
+
+Add functionality with third party bundles
+------------------------------------------
+* [File upload with the VichUploaderBundle](file_upload_vich.md)
+* [Sortable entities with the StofDoctrineExtensionsBundle](sortable_doctrine_extension.md)
 
 
 Lock file
