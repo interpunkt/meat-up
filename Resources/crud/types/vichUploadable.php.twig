@@ -5,7 +5,7 @@
 {% endif %}
                 'allow_delete' => true,
                 'download_link' => true,
-{% if field["croppableHeight"] %}
+{% if field["croppableHeight"] is defined %}
                 'attr' => array(
                     'class' => 'croppable',
                     'data-name' => '{{ field["name"] }}',
@@ -14,7 +14,7 @@
                     'data-width' => '{{ field["croppableWidth"] }}',
                     'data-x' => '{{ field["croppableX"] }}',
                     'data-y' => '{{ field["croppableY"] }}',
-{% if field["croppableRatio"] %}
+{% if field["croppableRatio"] is defined %}
                     'data-aspect-ratio' => {{ field["croppableRatio"] }},
 {% endif %}
                 )
