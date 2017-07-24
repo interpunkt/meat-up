@@ -87,6 +87,17 @@ class FormGenerator
             } elseif ('vichUploadable' === $type) {
                 $fileNameProperty = $this->annotationUtil->get('VichUploadable', 'fileNameProperty', $property);
                 $this->vichFileNameProperties[] = $fileNameProperty;
+
+                if ($this->annotationUtil->has('Croppable', $property)) {
+                    $field['croppableHeight'] = $this->annotationUtil->get('Croppable', 'height', $property);
+                    $field['croppableWidth'] = $this->annotationUtil->get('Croppable', 'width', $property);
+                    $field['croppableX'] = $this->annotationUtil->get('Croppable', 'x', $property);
+                    $field['croppableY'] = $this->annotationUtil->get('Croppable', 'y', $property);
+                }
+
+                if ($this->annotationUtil->has('CroppableRatio', $property)) {
+                    $field['croppableRatio'] = $this->annotationUtil->get('CroppableRatio', 'aspectRatio', $property);
+                }
             }
 
             $fields[$name] = $field;
@@ -117,7 +128,7 @@ class FormGenerator
         $formType = $twig->render('formType.php.twig',
             array(
                 'namespace' => $this->entityBundleNameSpace . '\Form\Type',
-                'className' => $entityClassName. 'Type',
+                'entityClassName' => $entityClassName,
                 'fields' => $fields,
                 'imports' => $imports
             )

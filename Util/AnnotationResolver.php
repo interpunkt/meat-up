@@ -12,6 +12,7 @@ class AnnotationResolver
         'Ignore' => 'Ip\MeatUp\Mapping\Ignore',
         'Hidden' => 'Ip\MeatUp\Mapping\Hidden',
         'CKEditor' => 'Ip\MeatUp\Mapping\CKEditor',
+        'CroppableRatio' => 'Ip\MeatUp\Mapping\CroppableRatio',
 
         // Doctrine
         'Column' => 'Doctrine\ORM\Mapping\Column',
@@ -23,6 +24,9 @@ class AnnotationResolver
 
         // StofDoctrineExtensionsBundle
         'SortablePosition' => 'Gedmo\Mapping\Annotation\SortablePosition',
+
+        // IP Skeleton
+        'Croppable' => 'DevPro\adminBundle\Annotation\Croppable',
     );
 
     public static function resolve($name)

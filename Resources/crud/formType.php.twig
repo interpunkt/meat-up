@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use {{ import }};
 {% endfor %}
 
-class {{ className }} extends AbstractType
+class {{ entityClassName~'Type' }} extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

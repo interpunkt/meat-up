@@ -71,7 +71,7 @@ The next step is to add the `SortablePosition` annotation to **one** of the prop
 
 
 ```php
-/**
+    /**
      * @Gedmo\SortablePosition()
      * @ORM\Column(type="integer")
      */
@@ -82,4 +82,4 @@ That's it! Now you are already set to generate your sortable entity.
 
 When an entity is sortable the MeatUp command will add the `movePositionUpAction` and the `movePositionDownAction` functions to your controller. By calling these actions the entity will be moved up or down in the sort order. 
 
-Additionally **two extra buttons** for moving the entities up or down will be generated next to the `edit` button in the index twig file. 
+Additionally **two extra buttons** for moving the entities up or down will be generated next to the `edit` button in the index twig file. The default sort order of the datatable in the index view will also be the position property with ascending order if you show it with the [OnIndexPage annotation](on_index_page.md).

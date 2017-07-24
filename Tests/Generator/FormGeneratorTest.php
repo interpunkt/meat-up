@@ -67,7 +67,7 @@ class FormGeneratorTest extends PHPUnit_Framework_TestCase
                 $this->equalTo('formType.php.twig'),
                 $this->equalTo(array(
                     'namespace' => '\Form\Type',
-                    'className' => 'Type',
+                    'entityClassName' => '',
                     'fields' => array(
                         'vichUploadable' => array(
                             'type' => 'vichUploadable',
