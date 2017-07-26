@@ -18,6 +18,7 @@ Add functionality with third party bundles
 ------------------------------------------
 * [File upload with the VichUploaderBundle](file_upload_vich.md)
 * [Sortable entities with the StofDoctrineExtensionsBundle](sortable_doctrine_extension.md)
+* [Image upload with cropping with the IP Symfony Skeleton](croppable_image_upload.md)
 
 
 Lock file

@@ -12,7 +12,7 @@ use Doctrine\Common\Annotations\Annotation\Required;
 class CroppableRatio
 {
     /**
-     * @var float | integer
+     * @var string
      * @Required
      */
     public $aspectRatio;

@@ -6,6 +6,7 @@ The MeatUp command tries to get as much information as possible from the standar
 | Annotation | Description |
 | --- | --- |
 | [CKEditor](ckeditor.md) | Uses the CKEditor for rendering this field |
+| [CroppableRatio](croppable_aspect_ratio.md) | Set a fixed aspect ratio for the image crop box |
 | [Hidden](hidden.md) | Render this property as a hidden field |
 | [Ignore](ignore.md) | Ignore this property in the form |
 | [ManyToOneChoice](many_to_one_choice.md) | Defines which properties should be displayed for a ManyToOneRelation field |
